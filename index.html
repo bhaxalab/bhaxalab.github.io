@@ -1,35 +1,1851 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BhaxaLab</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8f1f13">
+
+  <title>Voices Across Assam — Assamese Voices</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
+
   <style>
-    html, body { height: 100%; }
+    :root {
+      --primary: #8f1f13;
+      --primary-dark: #68150d;
+      --primary-soft: #fff2e7;
+
+      --bg: #f7f3ed;
+      --surface: #ffffff;
+      --text: #2a241f;
+      --muted: #746b63;
+      --border: #e7ddd3;
+      --success: #28764b;
+
+      --shadow: 0 18px 50px rgba(77,50,30,.10);
+      --radius: 24px;
+      --max: 1050px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
+      min-height: 100vh;
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 10% 0%,
+          rgba(143,31,19,.08),
+          transparent 32rem
+        ),
+        linear-gradient(
+          180deg,
+          #fffdf9 0%,
+          var(--bg) 100%
+        );
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 22px 16px 48px;
+    }
+
+    /* =========================================================
+       BRAND
+       ========================================================= */
+
+    .header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background: #f7f7f7;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 2px 0 24px;
     }
-    .main {
-      padding: 2rem 3rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      background: white;
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+
+      display: grid;
+      place-items: center;
+
+      color: #fff;
+      background: var(--primary);
+
+      box-shadow:
+        0 10px 24px rgba(143,31,19,.20);
+    }
+
+    .logo svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .brand h1 {
+      margin: 0;
+
+      font-size: 1.22rem;
+      letter-spacing: -.025em;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .back-link {
+      color: var(--primary);
+
+      text-decoration: none;
+
+      font-size: .82rem;
+      font-weight: 750;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .hero {
+      padding: 10px 0 25px;
       text-align: center;
     }
-    h1 { margin: 0 0 .5rem; font-size: 2rem; }
-    p { margin: 0; color: #555; }
+
+    .eyebrow {
+      margin-bottom: 9px;
+
+      color: var(--primary);
+
+      font-size: .76rem;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .hero h2 {
+      margin: 0;
+
+      font-size: clamp(
+        2rem,
+        7vw,
+        3.7rem
+      );
+
+      line-height: 1.04;
+      letter-spacing: -.045em;
+    }
+
+    .hero p {
+      max-width: 650px;
+
+      margin:
+        14px auto 0;
+
+      color: var(--muted);
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       METRICS
+       ========================================================= */
+
+    .metrics {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1.35fr;
+
+      gap: 12px;
+
+      margin-bottom: 16px;
+    }
+
+    .metric {
+      min-height: 112px;
+
+      padding: 18px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      background:
+        rgba(255,255,255,.94);
+    }
+
+    .metric-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--muted);
+
+      font-size: .75rem;
+      font-weight: 750;
+
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .voice-count {
+      color: var(--primary);
+
+      font-size: clamp(
+        2rem,
+        7vw,
+        3rem
+      );
+
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .voice-count-note {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: .78rem;
+    }
+
+    .latest-message {
+      margin: 0;
+
+      font-size:
+        clamp(
+          1rem,
+          3vw,
+          1.3rem
+        );
+
+      line-height: 1.45;
+      font-weight: 720;
+    }
+
+    .latest-place {
+      color: var(--primary);
+    }
+
+    .latest-time {
+      display: block;
+
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: .76rem;
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       MAP
+       ========================================================= */
+
+    .map-card {
+      position: relative;
+
+      overflow: hidden;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      background: #efeae4;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    #map {
+      width: 100%;
+      height:
+        min(
+          68vh,
+          650px
+        );
+
+      min-height:
+        440px;
+
+      background:
+        #eee9e2;
+    }
+
+    .map-status {
+      position: absolute;
+
+      top: 14px;
+      left: 50%;
+
+      z-index: 700;
+
+      transform:
+        translateX(-50%);
+
+      max-width:
+        calc(100% - 30px);
+
+      padding:
+        8px 12px;
+
+      border:
+        1px solid rgba(255,255,255,.68);
+
+      border-radius:
+        999px;
+
+      background:
+        rgba(255,255,255,.92);
+
+      box-shadow:
+        0 6px 18px
+        rgba(48,31,19,.10);
+
+      color:
+        var(--muted);
+
+      font-size:
+        .76rem;
+
+      font-weight:
+        700;
+
+      backdrop-filter:
+        blur(8px);
+
+      white-space:
+        nowrap;
+
+      transition:
+        opacity .2s ease;
+    }
+
+    .map-status.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       CUSTOM MAP MARKERS
+       ========================================================= */
+
+    .voice-marker {
+      position: relative;
+
+      width: 10px;
+      height: 10px;
+
+      border:
+        2px solid white;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--primary);
+
+      box-shadow:
+        0 2px 7px
+        rgba(80,30,20,.28);
+    }
+
+    .voice-marker::before {
+      content: "";
+
+      position:
+        absolute;
+
+      inset:
+        -5px;
+
+      border:
+        2px solid
+        rgba(143,31,19,.22);
+
+      border-radius:
+        50%;
+
+      animation:
+        markerPulse
+        2.2s
+        ease-out
+        infinite;
+    }
+
+    .voice-marker.latest {
+      background:
+        #c98b22;
+    }
+
+    .voice-marker.latest::before {
+      border-color:
+        rgba(201,139,34,.32);
+    }
+
+    @keyframes markerPulse {
+      0% {
+        transform:
+          scale(.7);
+
+        opacity: 1;
+      }
+
+      100% {
+        transform:
+          scale(1.7);
+
+        opacity: 0;
+      }
+    }
+
+    /* Leaflet popup */
+
+    .leaflet-popup-content-wrapper {
+      border-radius:
+        13px;
+
+      box-shadow:
+        0 10px 30px
+        rgba(40,30,20,.14);
+    }
+
+    .leaflet-popup-content {
+      margin:
+        13px 15px;
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        sans-serif;
+    }
+
+    .popup-place {
+      margin-bottom: 3px;
+
+      color:
+        var(--primary);
+
+      font-weight:
+        800;
+    }
+
+    .popup-copy {
+      color:
+        var(--muted);
+
+      font-size:
+        .78rem;
+
+      line-height:
+        1.4;
+    }
+
+
+
+    /* =========================================================
+       TOP FIVE DISTRICTS
+       ========================================================= */
+
+    .prize-banner {
+      margin: 24px 0 0;
+      padding: 20px 22px;
+      border: 1px solid #ead8cf;
+      border-radius: 20px;
+      background: linear-gradient(135deg,#fff8f3 0%,#fffdf9 100%);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .prize-banner h3 {
+      margin: 0 0 7px;
+      color: var(--primary);
+      font-size: 1.25rem;
+      letter-spacing: -.02em;
+    }
+
+    .prize-banner p {
+      margin: 0 auto;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    .top-five-note {
+      margin-top: 6px;
+      color: var(--primary);
+      font-size: .75rem;
+      font-weight: 750;
+    }
+
+    .rank-badge {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 25px;
+      background: #efe6df;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 850;
+    }
+
+    .district-row.top-five .rank-badge {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .district-row.top-five .district-name {
+      color: var(--primary);
+      font-weight: 820;
+    }
+
+    /* =========================================================
+       DISTRICT × GENDER
+       ========================================================= */
+
+    .district-section {
+      margin-top: 26px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.96);
+      box-shadow: var(--shadow);
+    }
+
+    .district-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .district-header h3 {
+      margin: 0 0 5px;
+      font-size: 1.2rem;
+      letter-spacing: -.02em;
+    }
+
+    .district-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .gender-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    .legend-female { background: #b65b75; }
+    .legend-male   { background: #4f728f; }
+    .legend-other  { background: #b18b4b; }
+
+    .district-bars {
+      display: grid;
+      gap: 13px;
+    }
+
+    .district-row {
+      display: grid;
+      grid-template-columns: 28px 150px minmax(0,1fr) 38px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .district-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+      font-size: .79rem;
+      font-weight: 700;
+    }
+
+    .stack-track {
+      height: 12px;
+      display: flex;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eee8e2;
+    }
+
+    .segment {
+      height: 100%;
+      min-width: 0;
+      transition: width .3s ease;
+    }
+
+    .segment.female { background: #b65b75; }
+    .segment.male   { background: #4f728f; }
+    .segment.other  { background: #b18b4b; }
+
+    .district-total {
+      text-align: right;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .district-empty {
+      padding: 18px 0 4px;
+      color: var(--muted);
+      text-align: center;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 650px) {
+      .district-section {
+        padding: 18px 15px;
+      }
+
+      .district-header {
+        display: block;
+      }
+
+      .gender-legend {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      .district-row {
+        grid-template-columns: 24px 92px minmax(0,1fr) 30px;
+        gap: 8px;
+      }
+
+      .district-name {
+        font-size: .72rem;
+      }
+    }
+
+    /* =========================================================
+       INFORMATION
+       ========================================================= */
+
+    .map-footer {
+      display: grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      align-items: center;
+
+      gap: 20px;
+
+      padding:
+        17px 4px 0;
+    }
+
+    .privacy-note {
+      margin: 0;
+
+      max-width:
+        720px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        .77rem;
+
+      line-height:
+        1.5;
+    }
+
+    .refresh-info {
+      color:
+        var(--muted);
+
+      font-size:
+        .72rem;
+
+      white-space:
+        nowrap;
+    }
+
+    .footer {
+      margin-top:
+        30px;
+
+      color:
+        #968a80;
+
+      text-align:
+        center;
+
+      font-size:
+        .72rem;
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 650px) {
+
+      .shell {
+        padding:
+          16px 11px 34px;
+      }
+
+      .header {
+        align-items:
+          flex-start;
+      }
+
+      .back-link {
+        padding-top:
+          7px;
+      }
+
+      .metrics {
+        grid-template-columns:
+          1fr;
+      }
+
+      #map {
+        min-height:
+          480px;
+
+        height:
+          64vh;
+      }
+
+      .map-footer {
+        grid-template-columns:
+          1fr;
+
+        gap:
+          6px;
+      }
+
+      .refresh-info {
+        white-space:
+          normal;
+      }
+    }
   </style>
 </head>
+
+
 <body>
-  <main class="main" role="main" aria-label="Hello">
-    <h1>Hello! 👋</h1>
-    <p>This is BhaxaLab on GitHub Pages.</p>
-    <p>We're coming soon!</p>
+
+  <main class="shell">
+
+    <!-- =======================================================
+         HEADER
+         ======================================================= -->
+
+    <header class="header">
+
+      <div class="brand-wrap">
+
+        <div
+          class="logo"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.9"
+          >
+            <rect
+              x="8.5"
+              y="3"
+              width="7"
+              height="12"
+              rx="3.5"
+            />
+
+            <path
+              d="
+                M5.5 11
+                a6.5 6.5 0 0 0 13 0
+                M12 17.5V21
+                M9 21h6
+              "
+            />
+          </svg>
+        </div>
+
+        <div class="brand">
+          <h1>
+            Assamese Voices
+          </h1>
+
+          <p>
+            A BhaxaLab Initiative
+          </p>
+        </div>
+
+      </div>
+
+
+      <a
+        class="back-link"
+        href="https://bhaxalab.github.io/assamesevoices/datacollection.html"
+      >
+        Add your voice →
+      </a>
+
+    </header>
+
+
+    <!-- =======================================================
+         HERO
+         ======================================================= -->
+
+    <section class="hero">
+
+      <div class="eyebrow">
+        Live contributions
+      </div>
+
+      <h2>
+        Voices across Assam
+      </h2>
+
+      <p>
+        Every dot represents an approximate public location for a contribution
+        to Assamese Voices. The district leaderboard is based on Home District.
+      </p>
+
+    </section>
+
+
+    <!-- =======================================================
+         LIVE METRICS
+         ======================================================= -->
+
+    <section
+      class="metrics"
+      aria-label="Contribution summary"
+    >
+
+      <div class="metric">
+
+        <span class="metric-label">
+          Voices collected
+        </span>
+
+        <div
+          id="voiceCount"
+          class="voice-count"
+        >
+          —
+        </div>
+
+        <div class="voice-count-note">
+          and growing
+        </div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <span class="metric-label">
+          Latest voice
+        </span>
+
+        <p
+          id="latestMessage"
+          class="latest-message"
+        >
+          Waiting for the latest contribution…
+        </p>
+
+        <span
+          id="latestTime"
+          class="latest-time"
+        ></span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         MAP
+         ======================================================= -->
+
+    <section class="map-card">
+
+      <div
+        id="mapStatus"
+        class="map-status"
+        role="status"
+        aria-live="polite"
+      >
+        Loading voices…
+      </div>
+<div
+        id="map"
+        aria-label="Map showing Assamese Voices contributions across Assam"
+      ></div>
+
+    </section>
+
+    <section class="prize-banner">
+      <h3>Five districts. Five winners.</h3>
+      <p>
+        On 31 December, the five districts with the highest number of contributions will be selected.
+        One participant from each of those five districts will receive a prize, chosen at random from
+        eligible contributors in that district.
+      </p>
+      <div class="top-five-note">
+        The leaderboard is based on participants' Home District.
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         DISTRICT × GENDER
+         ======================================================= -->
+
+    <section class="district-section">
+      <div class="district-header">
+        <div>
+          <h3>Voices by district</h3>
+          <p>
+            Live leaderboard by Home District, with each bar divided by gender.
+          </p>
+        </div>
+
+        <div class="gender-legend" aria-label="Gender legend">
+          <span class="legend-item">
+            <span class="legend-swatch legend-female"></span>
+            Female
+          </span>
+          <span class="legend-item">
+            <span class="legend-swatch legend-male"></span>
+            Male
+          </span>
+          <span class="legend-item">
+            <span class="legend-swatch legend-other"></span>
+            Other
+          </span>
+        </div>
+      </div>
+
+      <div id="districtBars" class="district-bars" aria-live="polite"></div>
+    </section>
+
+
+    <!-- =======================================================
+         NOTES
+         ======================================================= -->
+
+    <div class="map-footer">
+
+      <p class="privacy-note">
+        Locations shown here are privacy-protected. For recordings made in Assam,
+        the public point is displaced from the recording location. For recordings made
+        outside Assam, the public point is placed randomly within the participant's
+        Home District. Names, participant IDs, exact recording locations, and other
+        personal information are not displayed.
+      </p>
+
+      <div
+        id="refreshInfo"
+        class="refresh-info"
+      >
+        Updates automatically
+      </div>
+
+    </div>
+
+
+    <footer class="footer">
+      Assamese Voices · A BhaxaLab Initiative
+    </footer>
+
   </main>
+
+
+  <!-- =========================================================
+       LEAFLET
+       ========================================================= -->
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+
+  <script>
+
+    // =========================================================
+    // CONFIGURATION
+    // =========================================================
+
+    /*
+      Paste your deployed Google Apps Script Web App URL here.
+
+      Your Apps Script doGet() should return JSON in this shape:
+
+      {
+        "count": 3,
+
+        "latest": {
+          "timestamp": "2026-08-16T08:25:00.000Z"
+        },
+
+        "points": [
+          {
+            "lat": 26.31,
+            "lng": 91.02,
+            "timestamp": "2026-08-16T08:25:00.000Z"
+          }
+        ],
+
+        "homeDistrictGender": [
+          {
+            "district": "Barpeta",
+            "female": 12,
+            "male": 9,
+            "other": 1
+          }
+        ]
+      }
+
+      IMPORTANT:
+      Return ONLY privacy-safe public data.
+
+      Do not return:
+        participant name
+        participant ID
+        village/town
+        birth year
+        individual-level gender linked to a map point
+        recording metadata
+        exact GPS coordinates
+    */
+
+    const LIVE_DATA_URL =
+      "https://script.google.com/macros/s/AKfycbyli3qYJny2CzWMJ-7FXOwOTsMNppRUwlLhpLAwDkvdukZJeBDoNqy3O97fo48YzCJlfg/exec";
+
+
+    // Refresh once every 60 seconds.
+    const REFRESH_INTERVAL_MS =
+      60 * 1000;
+
+
+    // Assam viewport.
+    const ASSAM_BOUNDS = [
+      [24.05, 89.60],
+      [28.30, 96.20]
+    ];
+
+
+    // =========================================================
+    // MAP
+    // =========================================================
+
+    const map = L.map(
+      "map",
+      {
+        zoomControl: true,
+        attributionControl: true,
+        minZoom: 6,
+        maxZoom: 15
+      }
+    );
+
+
+    map.fitBounds(
+      ASSAM_BOUNDS,
+      {
+        padding: [18, 18]
+      }
+    );
+
+
+    L.tileLayer(
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(map);
+
+
+    // Keeps public contribution markers separate
+    // from the underlying map.
+    const contributionLayer =
+      L.layerGroup().addTo(map);
+
+
+    // =========================================================
+    // CUSTOM MARKER
+    // =========================================================
+
+    function makeVoiceIcon(isLatest) {
+
+      const markerClass =
+        isLatest
+          ? "voice-marker latest"
+          : "voice-marker";
+
+
+      return L.divIcon({
+        className: "",
+
+        html:
+          `<div class="${markerClass}"></div>`,
+
+        iconSize: [10, 10],
+
+        iconAnchor: [5, 5],
+
+        popupAnchor: [0, -10]
+      });
+    }
+
+
+    // =========================================================
+    // TEXT HELPERS
+    // =========================================================
+
+    function escapeHtml(value) {
+
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+    function relativeTime(value) {
+
+      if (!value) {
+        return "";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(date.getTime())
+      ) {
+        return "";
+      }
+
+
+      const seconds =
+        Math.max(
+          0,
+          Math.floor(
+            (
+              Date.now() -
+              date.getTime()
+            ) /
+            1000
+          )
+        );
+
+
+      if (seconds < 60) {
+        return "just now";
+      }
+
+
+      const minutes =
+        Math.floor(
+          seconds / 60
+        );
+
+
+      if (minutes < 60) {
+
+        return (
+          minutes === 1
+            ? "1 minute ago"
+            : `${minutes} minutes ago`
+        );
+      }
+
+
+      const hours =
+        Math.floor(
+          minutes / 60
+        );
+
+
+      if (hours < 24) {
+
+        return (
+          hours === 1
+            ? "1 hour ago"
+            : `${hours} hours ago`
+        );
+      }
+
+
+      const days =
+        Math.floor(
+          hours / 24
+        );
+
+
+      return (
+        days === 1
+          ? "1 day ago"
+          : `${days} days ago`
+      );
+    }
+
+
+    // =========================================================
+    // RENDER MAP
+    // =========================================================
+
+
+    const ASSAM_DISTRICTS = [
+      "Bajali",
+      "Baksa",
+      "Barpeta",
+      "Biswanath",
+      "Bongaigaon",
+      "Cachar",
+      "Charaideo",
+      "Chirang",
+      "Darrang",
+      "Dhemaji",
+      "Dhubri",
+      "Dibrugarh",
+      "Dima Hasao",
+      "Goalpara",
+      "Golaghat",
+      "Hailakandi",
+      "Hojai",
+      "Jorhat",
+      "Kamrup",
+      "Kamrup Metropolitan",
+      "Karbi Anglong",
+      "Karimganj",
+      "Kokrajhar",
+      "Lakhimpur",
+      "Majuli",
+      "Morigaon",
+      "Nagaon",
+      "Nalbari",
+      "Sivasagar",
+      "Sonitpur",
+      "South Salmara-Mankachar",
+      "Tamulpur",
+      "Tinsukia",
+      "Udalguri",
+      "West Karbi Anglong"
+    ];
+
+
+    function renderDistrictBars(data) {
+
+      const container =
+        document.getElementById("districtBars");
+
+      let rows =
+        Array.isArray(data.homeDistrictGender)
+          ? data.homeDistrictGender
+          : (
+              Array.isArray(data.districtGender)
+                ? data.districtGender
+                : []
+            );
+
+
+      // Development fallback: if aggregate data is absent but
+      // demo points contain gender, aggregate them in the browser.
+      if (!rows.length && Array.isArray(data.points)) {
+
+        const grouped = {};
+
+        data.points.forEach(point => {
+
+          const district =
+            point.district || "Unknown";
+
+          const gender =
+            String(point.gender || "other")
+              .toLowerCase();
+
+          if (!grouped[district]) {
+            grouped[district] = {
+              district: district,
+              female: 0,
+              male: 0,
+              other: 0
+            };
+          }
+
+          if (gender === "female") {
+            grouped[district].female += 1;
+          } else if (gender === "male") {
+            grouped[district].male += 1;
+          } else {
+            grouped[district].other += 1;
+          }
+        });
+
+        rows = Object.values(grouped);
+      }
+
+
+      const incoming = {};
+
+      rows.forEach(row => {
+        const district = row.district || "Unknown";
+        incoming[district] = {
+          district: district,
+          female: Number(row.female) || 0,
+          male: Number(row.male) || 0,
+          other: Number(row.other) || 0
+        };
+      });
+
+      // Always show every Assam district, even before it has a contribution.
+      rows = ASSAM_DISTRICTS.map(district => {
+        const row = incoming[district] || {
+          district: district,
+          female: 0,
+          male: 0,
+          other: 0
+        };
+
+        return {
+          ...row,
+          total: row.female + row.male + row.other
+        };
+      });
+
+      const hasContributions =
+        rows.some(row => row.total > 0);
+
+      // Before contributions begin, keep the district list alphabetical
+      // and do not display rankings. Once real contributions exist,
+      // districts are ordered by total contribution count.
+      if (hasContributions) {
+        rows.sort((a, b) =>
+          b.total - a.total ||
+          a.district.localeCompare(b.district)
+        );
+      } else {
+        rows.sort((a, b) =>
+          a.district.localeCompare(b.district)
+        );
+      }
+
+
+      const largestTotal =
+        Math.max(1, ...rows.map(row => row.total));
+
+
+      container.innerHTML =
+        rows.map(row => {
+
+          const overallWidth =
+            row.total > 0
+              ? (row.total / largestTotal) * 100
+              : 100;
+
+          const femaleShare =
+            row.total
+              ? (row.female / row.total) * 100
+              : 0;
+
+          const maleShare =
+            row.total
+              ? (row.male / row.total) * 100
+              : 0;
+
+          const otherShare =
+            row.total
+              ? (row.other / row.total) * 100
+              : 0;
+
+
+          const rank = rows.indexOf(row) + 1;
+          const isRanked = hasContributions && row.total > 0;
+          const topFiveClass =
+            isRanked && rank <= 5
+              ? " top-five"
+              : "";
+
+          return `
+            <div class="district-row${topFiveClass}">
+              <div class="rank-badge" style="${isRanked ? "" : "visibility:hidden"}">${isRanked ? rank : ""}</div>
+
+              <div
+                class="district-name"
+                title="${escapeHtml(row.district)}"
+              >
+                ${escapeHtml(row.district)}
+              </div>
+
+              <div
+                style="width:${overallWidth}%;min-width:4px"
+                title="Female: ${row.female} · Male: ${row.male} · Other: ${row.other}"
+              >
+                <div class="stack-track">
+                  <span
+                    class="segment female"
+                    style="width:${femaleShare}%"
+                  ></span>
+
+                  <span
+                    class="segment male"
+                    style="width:${maleShare}%"
+                  ></span>
+
+                  <span
+                    class="segment other"
+                    style="width:${otherShare}%"
+                  ></span>
+                </div>
+              </div>
+
+              <div class="district-total">
+                ${row.total}
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+
+    function renderData(data) {
+
+      contributionLayer.clearLayers();
+
+
+      const points =
+        Array.isArray(data.points)
+          ? data.points
+          : [];
+
+
+      const count =
+        Number.isFinite(
+          Number(data.count)
+        )
+          ? Number(data.count)
+          : points.length;
+
+
+      document
+        .getElementById(
+          "voiceCount"
+        )
+        .textContent =
+          count.toLocaleString();
+
+
+      renderDistrictBars(data);
+
+
+      // -------------------------------------------------------
+      // Latest contribution
+      // -------------------------------------------------------
+
+      const latest =
+        data.latest || null;
+
+
+      if (
+        latest &&
+        latest.timestamp
+      ) {
+
+        document
+          .getElementById(
+            "latestMessage"
+          )
+          .textContent =
+            "A new voice was just added!";
+
+
+        document
+          .getElementById(
+            "latestTime"
+          )
+          .textContent =
+            relativeTime(
+              latest.timestamp
+            );
+
+      } else {
+
+        document
+          .getElementById(
+            "latestMessage"
+          )
+          .textContent =
+            "Every voice adds another point to the map.";
+
+
+        document
+          .getElementById(
+            "latestTime"
+          )
+          .textContent =
+            "";
+      }
+
+
+      // -------------------------------------------------------
+      // Determine the latest map point
+      // -------------------------------------------------------
+
+      let latestPointIndex =
+        -1;
+
+
+      if (points.length) {
+
+        let newestTime =
+          -Infinity;
+
+
+        points.forEach(
+          (point, index) => {
+
+            const time =
+              point.timestamp
+                ? new Date(
+                    point.timestamp
+                  ).getTime()
+                : NaN;
+
+
+            if (
+              Number.isFinite(time) &&
+              time > newestTime
+            ) {
+
+              newestTime =
+                time;
+
+              latestPointIndex =
+                index;
+            }
+          }
+        );
+
+
+        if (
+          latestPointIndex === -1
+        ) {
+          latestPointIndex =
+            points.length - 1;
+        }
+      }
+
+
+      // -------------------------------------------------------
+      // Add points
+      // -------------------------------------------------------
+
+      points.forEach(
+        (point, index) => {
+
+          const lat =
+            Number(point.lat);
+
+          const lng =
+            Number(point.lng);
+
+
+          if (
+            !Number.isFinite(lat) ||
+            !Number.isFinite(lng)
+          ) {
+            return;
+          }
+
+
+          const isLatest =
+            index ===
+            latestPointIndex;
+
+
+          const marker =
+            L.marker(
+              [lat, lng],
+              {
+                icon:
+                  makeVoiceIcon(
+                    isLatest
+                  )
+              }
+            );
+
+
+          marker.bindPopup(
+            `
+              <div class="popup-place">
+                Assamese Voices
+              </div>
+
+              <div class="popup-copy">
+                A contribution is represented around this area
+                ${point.timestamp
+                  ? " · " +
+                    relativeTime(
+                      point.timestamp
+                    )
+                  : ""}.
+              </div>
+            `
+          );
+
+
+          marker.addTo(
+            contributionLayer
+          );
+        }
+      );
+
+
+      // -------------------------------------------------------
+      // Status
+      // -------------------------------------------------------
+
+      const status =
+        document.getElementById(
+          "mapStatus"
+        );
+
+
+      status.textContent =
+        count === 1
+          ? "1 voice on the map"
+          : `${count.toLocaleString()} voices on the map`;
+
+
+      window.setTimeout(
+        () => {
+          status.classList.add(
+            "hidden"
+          );
+        },
+        1800
+      );
+
+
+      document
+        .getElementById(
+          "refreshInfo"
+        )
+        .textContent =
+          "Updated " +
+          new Date()
+            .toLocaleTimeString(
+              [],
+              {
+                hour:
+                  "2-digit",
+                minute:
+                  "2-digit"
+              }
+            );
+    }
+
+
+    // =========================================================
+    // FETCH LIVE DATA
+    // =========================================================
+
+    async function loadLiveData() {
+
+      const status =
+        document.getElementById(
+          "mapStatus"
+        );
+
+
+      status.classList.remove(
+        "hidden"
+      );
+
+
+      try {
+
+        // -----------------------------------------------------
+        // No backend connected yet
+        // -----------------------------------------------------
+
+        if (
+          !LIVE_DATA_URL ||
+          LIVE_DATA_URL ===
+          "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
+        ) {
+          renderData({
+            count: 0,
+            latest: null,
+            points: [],
+            homeDistrictGender: []
+          });
+
+          status.textContent = "No live contributions yet";
+          status.classList.remove("hidden");
+          return;
+        }
+
+
+        // -----------------------------------------------------
+        // Production live data
+        // -----------------------------------------------------
+
+        const response =
+          await fetch(
+            LIVE_DATA_URL +
+            "?action=map&t=" +
+            Date.now(),
+            {
+              method:
+                "GET",
+
+              cache:
+                "no-store"
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            "Map data request failed."
+          );
+        }
+
+
+        const data =
+          await response.json();
+
+
+        renderData(
+          data
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Live map error:",
+          error
+        );
+
+
+        status.textContent =
+          "Live map temporarily unavailable";
+
+
+        document
+          .getElementById(
+            "latestMessage"
+          )
+          .textContent =
+            "We couldn't refresh the contribution map right now.";
+
+
+        document
+          .getElementById(
+            "latestTime"
+          )
+          .textContent =
+            "Please try again shortly.";
+      }
+    }
+
+
+    // =========================================================
+    // INITIALISE
+    // =========================================================
+
+    loadLiveData();
+
+
+    window.setInterval(
+      loadLiveData,
+      REFRESH_INTERVAL_MS
+    );
+
+  </script>
+
 </body>
 </html>
