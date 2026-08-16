@@ -570,7 +570,7 @@ audio{width:100%;height:40px}
 
       <div class="notice" style="margin-top:22px">
         <div>🎙️</div>
-        <div><strong>Microphone permission</strong><br>Your browser may ask for permission to use your microphone when you proceed to the recording page. Please select <strong>Allow</strong> so your voice can be recorded.</div>
+        <div><strong>Microphone permission</strong><br>Your browser may ask for permission to use your microphone when you proceed to the recording page. Please select <strong>Allow</strong>. If you have just enabled microphone access in your phone settings, you may need to tap the button once more.</div>
       </div>
 
       <div class="actions">
@@ -897,18 +897,42 @@ $("participantForm").addEventListener("submit", e => {
 });
 
 $("readyBtn").addEventListener("click", async () => {
-  $("readyBtn").disabled = true;
-  $("readyBtn").textContent = "Opening microphone…";
+  const btn = $("readyBtn");
+
+  btn.disabled = true;
+  btn.textContent = "Opening microphone…";
 
   try {
     await initRecorder();
+
+    // Microphone is genuinely available: move straight to recording.
+    btn.textContent = "Microphone ready ✓";
     setStep(4);
     showWord();
+
   } catch (err) {
-    console.error(err);
-    $("readyBtn").disabled = false;
-    $("readyBtn").textContent = "I’m ready →";
-    alert("Microphone access is needed to continue. Please allow microphone access in your browser.");
+    console.error("Microphone access error:", err);
+
+    btn.disabled = false;
+
+    // Some mobile browsers reject the first request immediately after
+    // permission/settings are changed. Let the participant retry with one tap.
+    if (err && err.name === "NotAllowedError") {
+      btn.textContent = "Try microphone again →";
+      alert(
+        "Microphone access is still blocked by the browser. Please allow microphone access for this site, then tap “Try microphone again”."
+      );
+    } else if (err && err.name === "NotFoundError") {
+      btn.textContent = "Try microphone again →";
+      alert(
+        "No microphone was found. Please check that a microphone is available, then try again."
+      );
+    } else {
+      btn.textContent = "Try microphone again →";
+      alert(
+        "The microphone could not be opened. Please try again."
+      );
+    }
   }
 });
 
@@ -957,14 +981,44 @@ function resetRecordingUI() {
 }
 
 async function initRecorder() {
-  if(recorder && stream) return;
-  stream=await navigator.mediaDevices.getUserMedia({
-    audio:{channelCount:1,echoCancellation:false,noiseSuppression:false,autoGainControl:false},
-    video:false
+  // Reuse the existing microphone only if it is still live.
+  if (
+    recorder &&
+    stream &&
+    stream.getAudioTracks().some(track => track.readyState === "live")
+  ) {
+    return;
+  }
+
+  // Clear stale objects before requesting the microphone again.
+  recorder = null;
+
+  if (stream) {
+    try {
+      stream.getTracks().forEach(track => track.stop());
+    } catch (e) {}
+    stream = null;
+  }
+
+  // Use the broadest mobile-compatible request.
+  // Recorder.js will still save a mono WAV below.
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: false
   });
-  audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  const input=audioContext.createMediaStreamSource(stream);
-  recorder=new Recorder(input,{numChannels:1});
+
+  audioContext =
+    new (window.AudioContext || window.webkitAudioContext)();
+
+  if (audioContext.state === "suspended") {
+    await audioContext.resume();
+  }
+
+  const input =
+    audioContext.createMediaStreamSource(stream);
+
+  recorder =
+    new Recorder(input, {numChannels: 1});
 }
 
 $("recordBtn").addEventListener("click", async()=>{
