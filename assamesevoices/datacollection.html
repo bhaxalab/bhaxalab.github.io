@@ -145,6 +145,7 @@ audio{width:100%;height:40px}
   max-width:520px;
   margin:0 auto 22px;
   color:var(--muted);
+  
   line-height:1.6;
 }
 .see-more{
@@ -310,7 +311,7 @@ audio{width:100%;height:40px}
         <div class="grid two" style="margin-top:16px">
           <div>
             <label for="birthYear">Birth year <span class="req">*</span></label>
-            <select id="birthYear" required>
+            <select id="birthYear" <!-- required -->>
               <option value="" selected disabled>Select birth year</option>
               <option value="2026">2026</option>
               <option value="2025">2025</option>
@@ -404,7 +405,7 @@ audio{width:100%;height:40px}
           <div>
             <span class="label">Gender <span class="req">*</span></span>
             <div class="choices">
-              <div class="choice"><input id="female" type="radio" name="gender" value="female" required><label for="female">Female</label></div>
+              <div class="choice"><input id="female" type="radio" name="gender" value="female" <!-- required -->><label for="female">Female</label></div>
               <div class="choice"><input id="male" type="radio" name="gender" value="male"><label for="male">Male</label></div>
               <div class="choice"><input id="other" type="radio" name="gender" value="other"><label for="other">Other</label></div>
             </div>
@@ -445,7 +446,7 @@ audio{width:100%;height:40px}
         <div class="grid">
           <div>
             <label for="medium">Medium of instruction in school <span class="req">*</span></label>
-            <select id="medium" required>
+            <select id="medium" <!-- required -->>
               <option value="" selected disabled>Select medium of instruction</option>
               <option value="Assamese">Assamese</option>
               <option value="Bodo">Bodo</option>
@@ -465,7 +466,7 @@ audio{width:100%;height:40px}
         <div class="grid two">
           <div>
             <label for="homeDistrict">Home district <span class="req">*</span></label>
-            <select id="homeDistrict" required>
+            <select id="homeDistrict" <!-- required -->>
               <option value="" selected disabled>Select district</option>
               <option value="Bajali">Bajali</option>
               <option value="Baksa">Baksa</option>
@@ -506,13 +507,13 @@ audio{width:100%;height:40px}
           </div>
           <div>
             <label for="homePlace">Home village / town <span class="req">*</span></label>
-            <input id="homePlace" placeholder="Enter village or town name" required>
+            <input id="homePlace" placeholder="Enter village or town name" <!-- required -->>
           </div>
         </div>
         <div class="grid two" style="margin-top:16px">
           <div>
             <label for="mainPlaceChoice">Place lived longest <span class="req">*</span></label>
-            <select id="mainPlaceChoice" required>
+            <select id="mainPlaceChoice" <!-- required -->>
               <option value="" selected disabled>Select an option</option>
               <option value="Same as home village/town">Same as home village / town</option>
               <option value="Other">Other</option>
@@ -522,7 +523,7 @@ audio{width:100%;height:40px}
           </div>
           <div>
             <label for="yearsSpent">Years lived there <span class="req">*</span></label>
-            <select id="yearsSpent" required>
+            <select id="yearsSpent" <!-- required -->>
               <option value="" selected disabled>Select years lived there</option>
               <option value="10-15 years">10–15 years</option>
               <option value="15-20 years">15–20 years</option>
@@ -710,24 +711,24 @@ const PROJECT_URL = "https://bhaxalab.github.io/assamesevoices";
 
 const words = [
   {word:"কলা", eng:"deaf", img:"images/kola_deaf.png"},
-  {word:"ক'লা", eng:"black", img:"images/kola_black.png"},
-  {word:"কোলা", eng:"lap", img:"images/kola_lap.png"},
-  {word:"কুলা", eng:"winnowing fan made of bamboo", img:"images/kula.png"},
-  {word:"বিল", eng:"lake", img:"images/bil.png"},
-  {word:"বে'ল", eng:"wood apple fruit", img:"images/bel_woodapple.png"},
-  {word:"বেল", eng:"bell", img:"images/bel_bell.png"},
-  {word:"চকা", eng:"tyre", img:"images/choka.png"},
-  {word:"চকী", eng:"chair", img:"images/choki.png"},
-  {word:"বেটা", eng:"son", img:"images/beta.png"},
-  {word:"বেটী", eng:"daughter", img:"images/beti.png"},
-  {word:"গোটা", eng:"solid", img:"images/gota.png"},
-  {word:"গুটি", eng:"seed", img:"images/guti.png"},
-  {word:"কৰ", eng:"tax", img:"images/kor_tax.png"},
-  {word:"কোৰ", eng:"hoe", img:"images/kor_hoe.png"},
-  {word:"ক'ৰ", eng:"where?", img:"images/kor_where.png"},
-  {word:"অসম", eng:"Assam", img:"images/assam.png"},
-  {word:"সোম বাৰ", eng:"Monday", img:"images/sombar.png"},
-  {word:"বিষ", eng:"pain", img:"images/bix.png"}
+  // {word:"ক'লা", eng:"black", img:"images/kola_black.png"},
+  // {word:"কোলা", eng:"lap", img:"images/kola_lap.png"},
+  // {word:"কুলা", eng:"winnowing fan made of bamboo", img:"images/kula.png"},
+  // {word:"বিল", eng:"lake", img:"images/bil.png"},
+  // {word:"বে'ল", eng:"wood apple fruit", img:"images/bel_woodapple.png"},
+  // {word:"বেল", eng:"bell", img:"images/bel_bell.png"},
+  // {word:"চকা", eng:"tyre", img:"images/choka.png"},
+  // {word:"চকী", eng:"chair", img:"images/choki.png"},
+  // {word:"বেটা", eng:"son", img:"images/beta.png"},
+  // {word:"বেটী", eng:"daughter", img:"images/beti.png"},
+  // {word:"গোটা", eng:"solid", img:"images/gota.png"},
+  // {word:"গুটি", eng:"seed", img:"images/guti.png"},
+  // {word:"কৰ", eng:"tax", img:"images/kor_tax.png"},
+  // {word:"কোৰ", eng:"hoe", img:"images/kor_hoe.png"},
+  // {word:"ক'ৰ", eng:"where?", img:"images/kor_where.png"},
+  // {word:"অসম", eng:"Assam", img:"images/assam.png"},
+  // {word:"সোম বাৰ", eng:"Monday", img:"images/sombar.png"},
+  // {word:"বিষ", eng:"pain", img:"images/bix.png"}
 ];
 
 const participantId = "AV-" + Date.now().toString(36).toUpperCase().slice(-5) + "-" + Math.random().toString(36).slice(2,6).toUpperCase();
