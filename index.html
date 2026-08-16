@@ -6,6 +6,7 @@
   <title>BhaxaLab</title>
   <style>
     html, body { height: 100%; }
+
     body {
       margin: 0;
       display: flex;
@@ -14,6 +15,7 @@
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
       background: #f7f7f7;
     }
+
     .main {
       padding: 2rem 3rem;
       border-radius: 16px;
@@ -21,15 +23,56 @@
       background: white;
       text-align: center;
     }
-    h1 { margin: 0 0 .5rem; font-size: 2rem; }
-    p { margin: 0; color: #555; }
+
+    h1 {
+      margin: 0 0 .5rem;
+      font-size: 2rem;
+    }
+
+    p {
+      margin: 0;
+      color: #555;
+    }
+
+    .links {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      padding: .7rem 1.1rem;
+      border-radius: 10px;
+      background: #f3f3f3;
+      color: #222;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #ddd;
+    }
+
+    .links a:hover {
+      background: #e9e9e9;
+    }
   </style>
 </head>
+
 <body>
   <main class="main" role="main" aria-label="Hello">
     <h1>Hello! 👋</h1>
     <p>This is BhaxaLab on GitHub Pages.</p>
     <p>We're coming soon!</p>
+
+    <div class="links">
+      <a href="https://bhaxalab.github.io/assamesevoices/datacollection.html">
+        Data Collection
+      </a>
+
+      <a href="https://bhaxalab.github.io/assamesevoices/livemap.html">
+        Live Map
+      </a>
+    </div>
   </main>
 </body>
 </html>
