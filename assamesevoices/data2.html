@@ -536,7 +536,7 @@ audio{width:100%;height:40px}
 
         <div class="notice">
           <div>📍</div>
-          <div><strong>Location permission</strong><br>Your browser will request your current location when you continue. For privacy, the location we store is randomly displaced by between 500 metres and 1 kilometre from your actual location, so we do not record your precise location.</div>
+          <div><strong>Location permission</strong><br>Your browser may request your current location when you continue. This helps us visualise where recordings are being contributed from. For privacy, the location we store is randomly displaced by between 500 metres and 1 kilometre from your actual location. If location is unavailable, you can still participate.</div>
         </div>
 
         <div class="consent">
@@ -854,8 +854,18 @@ $("participantForm").addEventListener("submit", e => {
   $("formStatus").textContent="Requesting location permission…";
 
   if (!navigator.geolocation) {
-    $("formStatus").style.color="var(--danger)";
-    $("formStatus").textContent="Location is not supported by this browser.";
+    userLat = null;
+    userLng = null;
+    locationAccuracy = null;
+
+    $("formStatus").style.color="var(--muted)";
+    $("formStatus").textContent="Location is unavailable on this device. Continuing without location…";
+
+    setTimeout(() => {
+      $("formStatus").textContent="";
+      setStep(3);
+    }, 800);
+
     return;
   }
 
@@ -867,11 +877,22 @@ $("participantForm").addEventListener("submit", e => {
       $("formStatus").textContent="";
       setStep(3);
     },
-    () => {
-      $("formStatus").style.color="var(--danger)";
-      $("formStatus").textContent="Please allow location access to continue.";
+    err => {
+      console.warn("Location unavailable:", err.code, err.message);
+
+      userLat = null;
+      userLng = null;
+      locationAccuracy = null;
+
+      $("formStatus").style.color="var(--muted)";
+      $("formStatus").textContent="Location could not be accessed. Continuing without location…";
+
+      setTimeout(() => {
+        $("formStatus").textContent="";
+        setStep(3);
+      }, 900);
     },
-    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+    {enableHighAccuracy:true,timeout:12000,maximumAge:0}
   );
 });
 
@@ -1322,7 +1343,16 @@ function finishStudy() {
     correctLevel:QRCode.CorrectLevel.M
   });
 
+  // Remove the upload card completely before showing the thank-you page.
+  $("uploadStage").classList.add("hidden");
+
   setStep(5);
+
+  // Ensure only the thank-you page is visible after a successful upload.
+  ["step1","step2","step3","step4"].forEach(id => $(id).classList.add("hidden"));
+  $("step5").classList.remove("hidden");
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function stopAudio() {
