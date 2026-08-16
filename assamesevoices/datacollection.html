@@ -324,7 +324,255 @@ audio{width:100%;height:40px}
   .device-grid{grid-template-columns:1fr}
   .mic-test-actions{grid-template-columns:1fr}
 }
+
+/* After-upload Story card */
+.story{
+  width:min(92vw,405px);
+  aspect-ratio:9/16;
+  background:linear-gradient(180deg,#fffdf9 0%,#f7f3ed 100%);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 22px 60px rgba(77,50,30,.18);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+.story-head{
+  padding:34px 28px 20px;
+}
+.story-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+.story-project{
+  margin-bottom:0;
+  min-width:0;
+}
+.story-project-title{
+  font-size:1.72rem;
+  line-height:1.08;
+  letter-spacing:-.035em;
+  font-weight:850;
+  color:var(--primary);
+}
+.story-project-subtitle{
+  margin-top:5px;
+  font-size:.78rem;
+  font-weight:650;
+  color:var(--muted);
+  letter-spacing:.01em;
+}
+.story-title{
+  margin:0;
+  font-size:1.72rem;
+  line-height:1.12;
+  letter-spacing:-.035em;
+}
+.story-title span{color:var(--primary)}
+.story-map-wrap{
+  position:relative;
+  margin:0 20px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:#fff;
+}
+#storyMap{
+  height:420px;
+  width:100%;
+}
+
+.map-bottom-overlay{
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:10px;
+  z-index:500;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  padding:9px 11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+  box-shadow:0 2px 10px rgba(0,0,0,.12);
+}
+.map-bottom-overlay strong{
+  font-size:.82rem;
+  color:var(--text);
+}
+.map-bottom-overlay span{
+  margin-left:auto;
+  font-size:.72rem;
+  font-weight:800;
+  color:var(--primary);
+  text-align:right;
+  white-space:nowrap;
+}
+.story-share-text{
+  padding:22px 28px 0;
+  font-size:.95rem;
+  line-height:1.5;
+  color:var(--muted);
+}
+.story-share-text strong{color:var(--text)}
+.story-brand{
+  margin-top:auto;
+  padding:20px 28px 26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.brand-left{
+  font-size:.9rem;
+  font-weight:800;
+}
+
+.story-url{
+  margin-top:auto;
+  padding:18px 28px 26px;
+  text-align:center;
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--muted);
+}
+.voice-speaker-icon{
+  background:transparent;
+  border:none;
+}
+.voice-speaker-circle{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--primary);
+  color:#fff;
+  border:3px solid #fff;
+  box-shadow:0 4px 14px rgba(0,0,0,.22);
+}
+.voice-speaker-circle svg{
+  width:14px;
+  height:14px;
+}
+.leaflet-control-attribution{
+  font-size:9px;
+}
+
+
+
+.website-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+.story-brand-mic{
+  width:42px;
+  height:42px;
+  flex:none;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(77,50,30,.14);
+}
+.story-brand-mic svg{
+  width:21px;
+  height:21px;
+}
+
+
+.final-story-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  width:100%;
+}
+.website-card-brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+}
+.website-card-brand .logo{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+}
+.website-card-brand .logo svg{width:25px;height:25px}
+.website-card-brand .brand h1{
+  font-size:1.22rem;
+  margin:0;
+  letter-spacing:-.025em;
+}
+.website-card-brand .brand p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:.82rem;
+}
+.story-bhaxalab-link{
+  margin-left:auto;
+  color:var(--primary);
+  font-size:1.22rem;
+  font-weight:800;
+  letter-spacing:-.025em;
+  text-decoration:none;
+  white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.story-bhaxalab-link::after{
+  content:"↗";
+  font-size:.82em;
+  font-weight:700;
+}
+.story-bhaxalab-link:hover,
+.story-bhaxalab-link:focus{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+#step5 .body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+#step5 .story{
+  margin-left:auto;
+  margin-right:auto;
+}
+.story-actions{
+  width:min(100%,405px);
+  margin:16px auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.story-actions .btn{width:100%}
+.share-status{
+  min-height:20px;
+  margin-top:9px;
+  text-align:center;
+  font-size:.78rem;
+  color:var(--muted);
+}
+@media(max-width:480px){
+  .story-actions{grid-template-columns:1fr}
+}
+
 </style>
+  <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
 </head>
 
 <body>
@@ -849,37 +1097,62 @@ audio{width:100%;height:40px}
       <div class="success-icon">✓</div>
       <div class="eyebrow">All done</div>
 
-      <h2 class="title">
-        Thank you, <span id="completeFirstName" class="complete-name">Friend</span>, for adding your voice
-      </h2>
+      <div class="story" id="shareStoryCard">
+        <div class="story-head">
+          <div class="story-top final-story-header">
+            <div class="website-card-brand">
+              <div class="logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <rect x="8.5" y="3" width="7" height="12" rx="3.5"/>
+                  <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/>
+                </svg>
+              </div>
+              <div class="brand">
+                <h1>Assamese Voices</h1>
+                <p>A BhaxaLab Initiative</p>
+              </div>
+            </div>
+            <a href="https://bhaxalab.github.io/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="story-bhaxalab-link"
+               title="Visit BhaxaLab website">BhaxaLab</a>
+          </div>
 
-      <p class="complete-message">
-        Please share with your family and friends and help others get recorded.<br>
-        <strong>All voices matter!</strong>
-      </p>
-
-      <div style="margin:22px auto 24px;padding:16px 18px;max-width:420px;border-radius:14px;background:#fff7f2;border:1px solid #ead8cf">
-        <div style="font-size:.78rem;color:var(--muted);margin-bottom:5px">Your participant ID</div>
-        <div id="completeParticipantId" style="font-size:1.25rem;font-weight:800;letter-spacing:.04em;color:var(--primary)">—</div>
-        <p style="margin:10px 0 0;font-size:.84rem;line-height:1.5;color:var(--muted)">
-          Please save your participant ID. We will announce five participant IDs on 31 December at bhaxalab.github.io/assamesevoices.
-        </p>
-      </div>
-
-      <div class="see-more">
-        <div class="qr-simple">
-          <div id="shareQr" aria-label="QR code for Assamese Voices"></div>
+          <h1 class="story-title">
+            Thank you, <span id="completeFirstName">Participant</span>, for adding your voice
+          </h1>
         </div>
 
-        <div class="project-url">bhaxalab.github.io/assamesevoices</div>
+        <div class="story-map-wrap">
+          <div id="storyMap"></div>
+
+          <div class="map-bottom-overlay">
+            <strong><span id="mapFirstName">Participant</span>, <span id="mapDistrict">District</span></strong>
+            <span><span id="completeParticipantId">AV-XXXXX-XXXX</span> · <span id="completionDate">17 Aug 2026</span></span>
+          </div>
+        </div>
+
+        <div class="story-share-text">
+          Please share with your family and friends and help others get recorded.<br>
+          <strong>All Assamese voices matter!</strong>
+        </div>
+
+        <div class="story-url">
+          bhaxalab.github.io/assamesevoices
+        </div>
       </div>
+
+      <div class="story-actions">
+        <button id="shareStoryBtn" class="btn btn-primary" type="button">Share</button>
+        <button id="downloadStoryBtn" class="btn btn-secondary" type="button">Download image</button>
+      </div>
+      <div id="shareStatus" class="share-status"></div>
     </div>
   </section>
 
   
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/mattdiamond/Recorderjs@master/dist/recorder.js"></script>
 
 <script>
@@ -1570,9 +1843,6 @@ $("audioPreview").addEventListener("ended", () => {
 });
 
 $("continueBtn").addEventListener("click", () => {
-  console.log("KEEP & CONTINUE CLICKED");
-  console.log("currentBlob:", currentBlob);
-  console.log("currentIdx before save:", currentIdx);
 
   if (!currentBlob) {
     console.error("No currentBlob — recording cannot be saved.");
@@ -1590,16 +1860,12 @@ $("continueBtn").addEventListener("click", () => {
     recordedAt: new Date().toISOString()
   });
 
-  console.log("Recording saved.");
-  console.log("recordings now:", recordings);
-  console.log("recording count:", recordings.length);
 
   currentIdx++;
 
   if (currentIdx < words.length) {
     showWord();
   } else {
-    console.log("Final word completed — starting upload.");
     finishRecordingTask();
   }
 });
@@ -1640,9 +1906,6 @@ async function finishRecordingTask() {
 }
 
 async function uploadAll() {
-  console.log("uploadAll started");
-  console.log("recordings at upload:", recordings);
-  console.log("number of recordings:", recordings.length);
 
   showUploadStage();
   $("retryFinalUploadBtn").classList.add("hidden");
@@ -1651,7 +1914,6 @@ async function uploadAll() {
   try {
     const files=[];
     const completed=recordings.filter(Boolean);
-    console.log("recordings found:", completed.length);
     const total=Math.max(completed.length,1);
 
     for(let i=0;i<completed.length;i++) {
@@ -1662,7 +1924,6 @@ async function uploadAll() {
       );
 
       const r=completed[i];
-      console.log("converting recording", i + 1);
       files.push({
         audio:await blobToBase64(r.blob),
         word:r.word,
@@ -1674,7 +1935,6 @@ async function uploadAll() {
       });
     }
 
-    console.log("files ready:", files.length);
     setFinalUploadProgress(65, `Uploading ${files.length} recordings…`);
 
     const payload={
@@ -1688,7 +1948,6 @@ async function uploadAll() {
       recordings:files
     };
 
-    console.log("sending payload");
 
     const response = await fetch(SCRIPT_URL, {
       method: "POST",
@@ -1706,7 +1965,6 @@ async function uploadAll() {
       throw new Error(result.error || "Upload failed");
     }
 
-    console.log("POST finished");
 
     setFinalUploadProgress(100, "Upload complete.");
     await new Promise(resolve => setTimeout(resolve, 650));
@@ -1746,31 +2004,8 @@ function safeName(v) {
 
 function finishStudy() {
   stopAudio();
-
-  const firstName=(participant.name||"Friend").trim();
-  $("completeFirstName").textContent=firstName;
-  $("completeParticipantId").textContent=participant.id || participantId || "—";
-
-  $("shareQr").innerHTML="";
-  new QRCode($("shareQr"),{
-    text:PROJECT_URL,
-    width:180,
-    height:180,
-    colorDark:"#5e1710",
-    colorLight:"#ffffff",
-    correctLevel:QRCode.CorrectLevel.M
-  });
-
-  // Remove the upload card completely before showing the thank-you page.
   $("uploadStage").classList.add("hidden");
-
   setStep(5);
-
-  // Ensure only the thank-you page is visible after a successful upload.
-  ["step1","step2","step3","step4"].forEach(id => $(id).classList.add("hidden"));
-  $("step5").classList.remove("hidden");
-
-  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function stopAudio() {
@@ -1784,5 +2019,223 @@ function stopAudio() {
 window.addEventListener("beforeunload",stopAudio);
 setStep(1);
 </script>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+
+<script>
+
+const DISTRICT_CENTRES = {
+  "Bajali":[26.50,91.18],
+  "Baksa":[26.69,91.23],
+  "Barpeta":[26.32,91.00],
+  "Biswanath":[26.73,93.15],
+  "Bongaigaon":[26.48,90.56],
+  "Cachar":[24.83,92.78],
+  "Charaideo":[27.00,95.02],
+  "Chirang":[26.65,90.63],
+  "Darrang":[26.45,92.03],
+  "Dhemaji":[27.48,94.58],
+  "Dhubri":[26.02,89.98],
+  "Dibrugarh":[27.47,94.91],
+  "Dima Hasao":[25.30,93.02],
+  "Goalpara":[26.17,90.62],
+  "Golaghat":[26.52,93.97],
+  "Hailakandi":[24.68,92.56],
+  "Hojai":[26.00,92.86],
+  "Jorhat":[26.75,94.20],
+  "Kamrup":[26.20,91.35],
+  "Kamrup Metropolitan":[26.14,91.74],
+  "Karbi Anglong":[26.00,93.50],
+  "Karimganj":[24.87,92.35],
+  "Kokrajhar":[26.40,90.27],
+  "Lakhimpur":[27.23,94.10],
+  "Majuli":[27.00,94.22],
+  "Morigaon":[26.25,92.34],
+  "Nagaon":[26.35,92.68],
+  "Nalbari":[26.45,91.44],
+  "Sivasagar":[26.98,94.64],
+  "Sonitpur":[26.63,92.80],
+  "South Salmara-Mankachar":[25.90,89.86],
+  "Tamulpur":[26.63,91.57],
+  "Tinsukia":[27.49,95.36],
+  "Udalguri":[26.75,92.10],
+  "West Karbi Anglong":[25.85,92.80]
+};
+
+let completionStoryMap = null;
+
+function initialiseCompletionStory(){
+  const firstName =
+    (participant && participant.name ? participant.name.trim().split(/\s+/)[0] : "") || "Participant";
+  const district =
+    (participant && participant.dist ? participant.dist.trim() : "") || "Assam";
+  const pid =
+    (typeof participantId !== "undefined" && participantId) ? participantId : "AV-XXXXX-XXXX";
+
+  const now = new Date();
+  const dateText = now.toLocaleDateString("en-GB", {
+    day:"2-digit", month:"short", year:"numeric"
+  }).replace(/^0/, "");
+
+  const firstEl = document.getElementById("completeFirstName");
+  const mapFirstEl = document.getElementById("mapFirstName");
+  const distEl = document.getElementById("mapDistrict");
+  const idEl = document.getElementById("completeParticipantId");
+  const dateEl = document.getElementById("completionDate");
+
+  if(firstEl) firstEl.textContent = firstName;
+  if(mapFirstEl) mapFirstEl.textContent = firstName;
+  if(distEl) distEl.textContent = district;
+  if(idEl) idEl.textContent = pid;
+  if(dateEl) dateEl.textContent = dateText;
+
+  const mapEl = document.getElementById("storyMap");
+  if(mapEl && typeof L !== "undefined"){
+    if(completionStoryMap){
+      completionStoryMap.remove();
+      completionStoryMap = null;
+    }
+
+    completionStoryMap = L.map(mapEl, {
+      zoomControl:false,
+      attributionControl:true,
+      scrollWheelZoom:false,
+      dragging:true
+    }).setView([26.25,92.6],7);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom:19,
+      attribution:"&copy; OpenStreetMap contributors"
+    }).addTo(completionStoryMap);
+
+    const speakerIcon = L.divIcon({
+      className:"voice-speaker-icon",
+      html:`<div class="voice-speaker-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="8.5" y="3" width="7" height="11" rx="3.5"></rect>
+          <path d="M5.5 10.5a6.5 6.5 0 0 0 13 0M12 17v4M9 21h6"></path>
+        </svg>
+      </div>`,
+      iconSize:[32,32],
+      iconAnchor:[16,16]
+    });
+
+    const markerPoint =
+      DISTRICT_CENTRES[district] || [26.25,92.60];
+
+    L.marker(markerPoint, {icon:speakerIcon}).addTo(completionStoryMap);
+    setTimeout(()=>completionStoryMap.invalidateSize(),150);
+  }
+}
+</script>
+
+
+<script>
+const completionObserver = new MutationObserver(() => {
+  const step5 = document.getElementById("step5");
+  if(step5 && !step5.classList.contains("hidden")){
+    initialiseCompletionStory();
+  }
+});
+const completionStep = document.getElementById("step5");
+if(completionStep){
+  completionObserver.observe(completionStep, {attributes:true, attributeFilter:["class"]});
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+async function renderContributionImage(){
+  const card = document.getElementById("shareStoryCard");
+  if(!card) throw new Error("Contribution card not found.");
+
+  const canvas = await html2canvas(card,{
+    backgroundColor:"#fffdf9",
+    scale:3,
+    useCORS:true,
+    allowTaint:false,
+    logging:false
+  });
+
+  return new Promise((resolve,reject)=>{
+    canvas.toBlob(blob=>{
+      if(blob) resolve(blob);
+      else reject(new Error("Could not create image."));
+    },"image/png",1);
+  });
+}
+
+async function contributionFile(){
+  const blob = await renderContributionImage();
+  return new File([blob],"assamese-voices-contribution.png",{type:"image/png"});
+}
+
+const shareStoryBtn = document.getElementById("shareStoryBtn");
+if(shareStoryBtn){
+  shareStoryBtn.addEventListener("click",async()=>{
+    const status=document.getElementById("shareStatus");
+    shareStoryBtn.disabled=true;
+    status.textContent="Preparing image…";
+    try{
+      const file=await contributionFile();
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({
+          title:"Assamese Voices",
+          text:"I added my voice to Assamese Voices.",
+          files:[file]
+        });
+        status.textContent="";
+      }else if(navigator.share){
+        await navigator.share({
+          title:"Assamese Voices",
+          text:"I added my voice to Assamese Voices.",
+          url:PROJECT_URL
+        });
+        status.textContent="Use Download image to share the contribution card as a photo.";
+      }else{
+        status.textContent="Sharing is not supported here. Use Download image instead.";
+      }
+    }catch(err){
+      if(err && err.name==="AbortError") status.textContent="";
+      else{
+        console.error(err);
+        status.textContent="Could not open sharing. Use Download image instead.";
+      }
+    }finally{
+      shareStoryBtn.disabled=false;
+    }
+  });
+}
+
+const downloadStoryBtn = document.getElementById("downloadStoryBtn");
+if(downloadStoryBtn){
+  downloadStoryBtn.addEventListener("click",async()=>{
+    const status=document.getElementById("shareStatus");
+    downloadStoryBtn.disabled=true;
+    status.textContent="Preparing image…";
+    try{
+      const blob=await renderContributionImage();
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url;
+      a.download="assamese-voices-contribution.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      status.textContent="Image ready.";
+    }catch(err){
+      console.error(err);
+      status.textContent="Could not create the image.";
+    }finally{
+      downloadStoryBtn.disabled=false;
+    }
+  });
+}
+</script>
+
 </body>
 </html>
