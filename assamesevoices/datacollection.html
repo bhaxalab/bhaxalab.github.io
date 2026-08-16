@@ -40,6 +40,29 @@ button{cursor:pointer}
 .logo svg{width:25px;height:25px}
 .brand h1{font-size:1.22rem;margin:0;letter-spacing:-.025em}
 .brand p{margin:3px 0 0;color:var(--muted);font-size:.82rem}
+.bhaxalab-link{
+  margin-left:auto;
+  color:var(--primary);
+  font-size:1.22rem;
+  font-weight:800;
+  letter-spacing:-.025em;
+  text-decoration:none;
+  white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.bhaxalab-link::after{
+  content:"↗";
+  font-size:.82em;
+  font-weight:700;
+  line-height:1;
+}
+.bhaxalab-link:hover,
+.bhaxalab-link:focus{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
 .stepper{display:grid;grid-template-columns:repeat(5,1fr);position:relative;margin:0 0 20px}
 .stepper:before{content:"";position:absolute;left:10%;right:10%;top:15px;height:2px;background:var(--border)}
 .step{position:relative;z-index:1;text-align:center;color:#91867d;font-size:.75rem;font-weight:700}
@@ -274,6 +297,23 @@ audio{width:100%;height:40px}
   margin-top:12px;
 }
 
+.recording-for-choices{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.recording-for-choices .choice{
+  width:100%;
+  min-width:0;
+}
+.recording-for-choices .choice label{
+  width:100%;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
 @media(max-width:620px){
   .shell{padding:16px 11px 34px}
   .body{padding:21px 17px 24px}
@@ -300,6 +340,14 @@ audio{width:100%;height:40px}
       <h1>Assamese Voices</h1>
       <p>A BhaxaLab Initiative</p>
     </div>
+
+    <a href="https://bhaxalab.github.io/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="bhaxalab-link"
+       title="Visit BhaxaLab website">
+      BhaxaLab
+    </a>
   </header>
 
   <div class="stepper">
@@ -312,43 +360,16 @@ audio{width:100%;height:40px}
 
   <section id="step1" class="card">
     <div class="body">
-      <div class="eyebrow">Welcome to Assamese Voices</div>
-      <h2 class="title">Hello!</h2>
+      <h2 class="title">Thank you for your interest!</h2>
 
       <div style="line-height:1.7;color:var(--text)">
         <p>
-          We are Saurabh and Kaushika from BhaxaLab. We are linguists, currently based at the Australian National University and Delhi University, and our work centres on Assamese language and linguistics.
+          There are three steps to complete the task, and each one will be explained as you move through it.
         </p>
-
-        <p>
-          So, have you ever wondered what Assamese sounded like 50 years ago? Or 100 years ago? Would it have sounded the same as the Assamese we speak today? You may also have heard parents say that their children speak differently from them, or that younger people no longer speak Assamese in quite the same way. Or you have almost certainly heard people say that someone from Barpeta sounds different from someone from Jorhat or Sivasagar. We all have observations like these about the way Assamese is spoken.
-        </p>
-
-        <p>
-          This is exactly what interests us. We want to understand how present-day Assamese is similar or different across speakers, and how the way people speak may vary across places, age groups, genders, and other factors. To study this, we need audio recordings of how people actually speak. There is, of course, plenty of Assamese audio and video material available today, but only a small amount of it is suitable for the kind of linguistic research we do.
-        </p>
-
-        <p>
-          So, as a first step, we have designed this pilot project to collect short audio recordings from Assamese speakers. The task is simple and should take no more than 10 minutes to complete. If you have any questions, feedback, or simply something you would like to share with us about Assamese, we would be very happy to hear from you.
-        </p>
-
-        <p>
-          Thank you for your interest in participating!
-        </p>
-      </div>
-
-      <div class="notice" style="margin-top:22px">
-        <div>✉️</div>
-        <div>
-          <strong>Contact us</strong><br>
-          <a href="mailto:bhaxalab@gmail.com" style="color:var(--primary);font-weight:700;text-decoration:none">
-            bhaxalab@gmail.com
-          </a>
-        </div>
       </div>
 
       <div class="actions">
-        <button id="introContinueBtn" class="btn btn-primary" type="button">Continue →</button>
+        <button id="introContinueBtn" class="btn btn-primary" type="button">Let’s go →</button>
       </div>
     </div>
   </section>
@@ -364,7 +385,7 @@ audio{width:100%;height:40px}
 
         <div>
           <span class="label">Are you recording yourself or someone else? <span class="req">*</span></span>
-          <div class="choices" style="grid-template-columns:1fr 1fr">
+          <div class="choices recording-for-choices">
             <div class="choice">
               <input id="recordSelf" type="radio" name="recordingFor" value="self" required>
               <label for="recordSelf">Myself</label>
@@ -549,7 +570,7 @@ audio{width:100%;height:40px}
             <input id="mediumOther" class="hidden" type="text"
                    placeholder="Please specify" style="margin-top:8px">
           </div>
-          <div><label for="languages">Other languages spoken <span class="req">*</span></label><textarea id="languages" placeholder="List up to four languages"></textarea></div>
+          <div><label for="languages">Languages spoken other than Assamese <span class="req">*</span></label><textarea id="languages" placeholder="List up to four languages"></textarea></div>
         </div>
 
         <div class="section-title">Places</div>
@@ -599,6 +620,23 @@ audio{width:100%;height:40px}
             <label for="homePlace">Home village / town <span class="req">*</span></label>
             <input id="homePlace" placeholder="Enter village or town name" data-required>
           </div>
+          <div>
+            <label for="homePincode">PIN code of home village / town <span class="req">*</span></label>
+            <input id="homePincode" type="text" inputmode="numeric" maxlength="6"
+                   pattern="[0-9]{6}" placeholder="6-digit PIN code" data-required>
+          </div>
+          <div>
+            <label for="currentPlaceChoice">Current place of residence <span class="req">*</span></label>
+            <select id="currentPlaceChoice" data-required>
+              <option value="">Select</option>
+              <option value="Same as home village/town">Same as home village / town</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div id="currentPlaceOtherWrap" class="hidden">
+            <label for="currentPlaceOther">Current village / town / city <span class="req">*</span></label>
+            <input id="currentPlaceOther" type="text" placeholder="Enter current place of residence">
+          </div>
         </div>
         <div class="grid two" style="margin-top:16px">
           <div>
@@ -622,11 +660,6 @@ audio{width:100%;height:40px}
               <option value="More than 40 years">More than 40 years</option>
             </select>
           </div>
-        </div>
-
-        <div class="notice">
-          <div>📍</div>
-          <div><strong>Location permission</strong><br>Your browser may request your current location when you continue. This helps us visualise where recordings are being contributed from. For privacy, the location we store is randomly displaced by between 500 metres and 1 kilometre from your actual location. If location is unavailable, you can still participate.</div>
         </div>
 
         <div class="consent">
@@ -843,7 +876,7 @@ audio{width:100%;height:40px}
     </div>
   </section>
 
-  <div class="footer">Assamese Voices · A BhaxaLab Initiative</div>
+  
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -924,6 +957,22 @@ setupOtherField("education", "educationOther");
 setupOtherField("occupation", "occupationOther");
 setupOtherField("medium", "mediumOther");
 
+$("homePincode").addEventListener("input", e => {
+  e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+});
+
+$("currentPlaceChoice").addEventListener("change", () => {
+  const isOther = $("currentPlaceChoice").value === "Other";
+  $("currentPlaceOtherWrap").classList.toggle("hidden", !isOther);
+
+  if (isOther) {
+    $("currentPlaceOther").setAttribute("data-required", "");
+  } else {
+    $("currentPlaceOther").removeAttribute("data-required");
+    $("currentPlaceOther").value = "";
+  }
+});
+
 function updateMainPlaceField() {
   const choice = $("mainPlaceChoice").value;
   const isOther = choice === "Other";
@@ -992,6 +1041,11 @@ $("participantForm").addEventListener("submit", e => {
     langs: $("languages").value.trim(),
     dist: $("homeDistrict").value.trim(),
     homePlace: $("homePlace").value.trim(),
+    homePincode: $("homePincode").value.trim(),
+    currentPlace: $("currentPlaceChoice").value === "Same as home village/town"
+      ? $("homePlace").value.trim()
+      : $("currentPlaceOther").value.trim(),
+    currentPlaceChoice: $("currentPlaceChoice").value,
     place: $("mainPlaceChoice").value === "Same as home village/town"
       ? $("homePlace").value.trim()
       : $("mainPlaceOther").value.trim(),
@@ -1001,50 +1055,12 @@ $("participantForm").addEventListener("submit", e => {
     startedAt: new Date().toISOString()
   };
 
-  $("formStatus").style.color="var(--muted)";
-  $("formStatus").textContent="Requesting location permission…";
-
-  if (!navigator.geolocation) {
-    userLat = null;
-    userLng = null;
-    locationAccuracy = null;
-
-    $("formStatus").style.color="var(--muted)";
-    $("formStatus").textContent="Location is unavailable on this device. Continuing without location…";
-
-    setTimeout(() => {
-      $("formStatus").textContent="";
-      setStep(3);
-    }, 800);
-
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      userLat=pos.coords.latitude;
-      userLng=pos.coords.longitude;
-      locationAccuracy=pos.coords.accuracy;
-      $("formStatus").textContent="";
-      setStep(3);
-    },
-    err => {
-      console.warn("Location unavailable:", err.code, err.message);
-
-      userLat = null;
-      userLng = null;
-      locationAccuracy = null;
-
-      $("formStatus").style.color="var(--muted)";
-      $("formStatus").textContent="Location could not be accessed. Continuing without location…";
-
-      setTimeout(() => {
-        $("formStatus").textContent="";
-        setStep(3);
-      }, 900);
-    },
-    {enableHighAccuracy:true,timeout:12000,maximumAge:0}
-  );
+  // No browser/GPS location is requested or collected.
+  userLat = null;
+  userLng = null;
+  locationAccuracy = null;
+  $("formStatus").textContent="";
+  setStep(3);
 });
 
 const microphoneHelp = {
