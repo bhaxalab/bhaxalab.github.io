@@ -186,6 +186,94 @@ audio{width:100%;height:40px}
 }
 .footer{color:#968a80;text-align:center;font-size:.72rem;margin-top:19px}
 
+/* Microphone check */
+.device-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:14px 0 8px;
+}
+.device-btn{
+  min-height:70px;
+  padding:12px 10px;
+  border:1px solid #d8cec4;
+  border-radius:14px;
+  background:#fff;
+  color:var(--text);
+  font-weight:750;
+  line-height:1.3;
+}
+.device-btn.selected{
+  border-color:var(--primary);
+  background:#fff2ec;
+  color:var(--primary);
+  box-shadow:0 0 0 1px var(--primary);
+}
+.mic-test-box{
+  margin-top:20px;
+  padding:20px 16px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:#fcfaf8;
+  text-align:center;
+}
+.mic-test-say{
+  margin:5px 0 18px;
+  font-size:1.8rem;
+  font-weight:850;
+  color:var(--primary);
+}
+.mic-help-box{
+  margin-top:16px;
+  padding:15px;
+  border:1px solid #f2c9c3;
+  border-radius:14px;
+  background:#fff3f1;
+  color:#6f544f;
+  font-size:.84rem;
+  line-height:1.55;
+  text-align:left;
+}
+.mic-help-box strong{color:var(--text)}
+.mic-test-success{
+  margin-top:18px;
+  padding:16px;
+  border:1px solid #cfe7d9;
+  border-radius:14px;
+  background:#f2fbf5;
+  color:#24633e;
+  text-align:center;
+}
+.mic-test-wave{
+  position:relative;
+  width:100%;
+  height:90px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#f7f3ef;
+  margin:12px 0;
+}
+#testWaveformCanvas{
+  width:100%;
+  height:90px;
+  display:block;
+}
+#testWaveformPlayhead{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:3px;
+  background:var(--primary);
+  pointer-events:none;
+}
+.mic-test-actions{
+  display:grid;
+  grid-template-columns:1fr 1.25fr;
+  gap:9px;
+  margin-top:12px;
+}
+
 @media(max-width:620px){
   .shell{padding:16px 11px 34px}
   .body{padding:21px 17px 24px}
@@ -193,6 +281,8 @@ audio{width:100%;height:40px}
   .choices{grid-template-columns:1fr 1fr}
   .choices .choice:last-child{grid-column:1/-1}
   .preview-actions{grid-template-columns:1fr}
+  .device-grid{grid-template-columns:1fr}
+  .mic-test-actions{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -568,13 +658,68 @@ audio{width:100%;height:40px}
         </ul>
       </div>
 
-      <div class="notice" style="margin-top:22px">
-        <div>🎙️</div>
-        <div><strong>Microphone permission</strong><br>Your browser may ask for permission to use your microphone when you proceed to the recording page. Please select <strong>Allow</strong>. If you have just enabled microphone access in your phone settings, you may need to tap the button once more.</div>
+      <div class="section-title">Check your microphone</div>
+      <p class="lead" style="margin-bottom:14px">
+        Before we begin, let’s make sure your microphone is working properly.
+      </p>
+
+      <span class="label">What device are you using?</span>
+      <div class="device-grid">
+        <button class="device-btn" data-device="ios" type="button">iPhone / iPad</button>
+        <button class="device-btn" data-device="android" type="button">Android phone / tablet</button>
+        <button class="device-btn" data-device="computer" type="button">Computer / laptop</button>
       </div>
 
-      <div class="actions">
-        <button id="readyBtn" class="btn btn-primary" type="button">I’m ready →</button>
+      <div class="mic-test-box">
+        <div style="color:var(--muted);font-size:.82rem">Tap the microphone and say</div>
+        <div class="mic-test-say">“Hello!”</div>
+
+        <button id="testMicBtn" class="rec-btn" type="button" aria-label="Start microphone test" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <rect x="8.5" y="3" width="7" height="12" rx="3.5"/>
+            <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/>
+          </svg>
+        </button>
+
+        <p id="testMicState" class="rec-state">Choose your device first</p>
+        <p class="rec-hint">This test recording is not saved or uploaded.</p>
+
+        <div id="micHelpBox" class="mic-help-box hidden">
+          <strong>Microphone access is needed</strong>
+          <div id="micHelpText" style="margin-top:7px"></div>
+          <button id="retryMicBtn" class="btn btn-primary" type="button" style="width:100%;margin-top:13px">
+            Try microphone again →
+          </button>
+        </div>
+
+        <div id="testPreview" class="preview hidden">
+          <strong>Check your test recording</strong>
+
+          <div class="mic-test-wave">
+            <canvas id="testWaveformCanvas" width="640" height="110"></canvas>
+            <div id="testWaveformPlayhead"></div>
+          </div>
+
+          <audio id="testAudioPreview" preload="metadata" class="hidden"></audio>
+
+          <button id="playTestBtn" class="btn btn-secondary" type="button" style="width:100%">
+            ▶ Play test recording
+          </button>
+
+          <div id="testDecision" class="mic-test-actions hidden">
+            <button id="testAgainBtn" class="btn btn-danger" type="button">Try again</button>
+            <button id="testSoundsGoodBtn" class="btn btn-primary" type="button">Yes, sounds good →</button>
+          </div>
+        </div>
+
+        <div id="micTestSuccess" class="mic-test-success hidden">
+          <strong>Great! Your microphone is working.</strong><br>
+          You’re ready to begin the recording task.
+        </div>
+
+        <button id="readyBtn" class="btn btn-primary hidden" type="button" style="width:100%;margin-top:14px">
+          I’m ready →
+        </button>
       </div>
     </div>
   </section>
@@ -741,6 +886,12 @@ let recording = false, currentBlob = null, previewUrl = null;
 let startedAt = null, timerInterval = null;
 const recordings = [];
 
+// Microphone test state — never uploaded.
+let selectedDevice = "";
+let testRecording = false;
+let testBlob = null;
+let testPreviewUrl = null;
+
 const $ = id => document.getElementById(id);
 
 function setStep(n) {
@@ -896,45 +1047,242 @@ $("participantForm").addEventListener("submit", e => {
   );
 });
 
-$("readyBtn").addEventListener("click", async () => {
-  const btn = $("readyBtn");
+const microphoneHelp = {
+  ios: `
+    <strong>iPhone / iPad:</strong> Open <strong>Settings</strong>, find the browser you are using,
+    and allow <strong>Microphone</strong> access. If you are using Safari, you may also need to allow
+    microphone access for this website in Safari’s website settings. Then return here and try again.
+  `,
+  android: `
+    <strong>Android phone / tablet:</strong> Open
+    <strong>Settings → Apps → [your browser] → Permissions → Microphone → Allow</strong>.
+    Then return here and try again.
+  `,
+  computer: `
+    <strong>Computer / laptop:</strong> Allow microphone access for this website in your browser’s
+    site permissions. You can usually find this by clicking the icon beside the website address.
+    Also make sure your browser has microphone permission in your computer’s system settings.
+    Then return here and try again.
+  `
+};
 
-  btn.disabled = true;
-  btn.textContent = "Opening microphone…";
+document.querySelectorAll(".device-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".device-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+
+    selectedDevice = btn.dataset.device;
+
+    $("testMicBtn").disabled = false;
+    $("testMicState").textContent = "Tap to test your microphone";
+
+    // Instructions are shown only if microphone access fails.
+    if (!$("micHelpBox").classList.contains("hidden")) {
+      $("micHelpText").innerHTML = microphoneHelp[selectedDevice];
+    }
+  });
+});
+
+async function startMicrophoneTest() {
+  $("micHelpBox").classList.add("hidden");
+  $("micTestSuccess").classList.add("hidden");
+  $("readyBtn").classList.add("hidden");
+  $("testDecision").classList.add("hidden");
+
+  if (!selectedDevice) {
+    $("testMicState").textContent = "Choose your device first";
+    return;
+  }
 
   try {
     await initRecorder();
 
-    // Microphone is genuinely available: move straight to recording.
-    btn.textContent = "Microphone ready ✓";
-    setStep(4);
-    showWord();
+    recorder.clear();
+    recorder.record();
+
+    testRecording = true;
+    $("testMicBtn").classList.add("recording");
+    $("testMicBtn").disabled = false;
+    $("testMicState").textContent = "Recording… tap to stop";
 
   } catch (err) {
-    console.error("Microphone access error:", err);
+    console.error("Microphone test failed:", err);
 
-    btn.disabled = false;
+    testRecording = false;
+    $("testMicBtn").classList.remove("recording");
+    $("testMicBtn").disabled = false;
+    $("testMicState").textContent = "Microphone could not be opened";
 
-    // Some mobile browsers reject the first request immediately after
-    // permission/settings are changed. Let the participant retry with one tap.
-    if (err && err.name === "NotAllowedError") {
-      btn.textContent = "Try microphone again →";
-      alert(
-        "Microphone access is still blocked by the browser. Please allow microphone access for this site, then tap “Try microphone again”."
-      );
-    } else if (err && err.name === "NotFoundError") {
-      btn.textContent = "Try microphone again →";
-      alert(
-        "No microphone was found. Please check that a microphone is available, then try again."
-      );
-    } else {
-      btn.textContent = "Try microphone again →";
-      alert(
-        "The microphone could not be opened. Please try again."
-      );
+    $("micHelpText").innerHTML =
+      microphoneHelp[selectedDevice] ||
+      "Please enable microphone access for your browser, then try again.";
+
+    $("micHelpBox").classList.remove("hidden");
+  }
+}
+
+function stopMicrophoneTest() {
+  if (!testRecording || !recorder) return;
+
+  recorder.stop();
+  testRecording = false;
+
+  $("testMicBtn").classList.remove("recording");
+  $("testMicBtn").disabled = true;
+  $("testMicState").textContent = "Preparing test recording…";
+
+  recorder.exportWAV(blob => {
+    testBlob = blob;
+
+    if (testPreviewUrl) {
+      URL.revokeObjectURL(testPreviewUrl);
     }
+
+    testPreviewUrl = URL.createObjectURL(blob);
+    $("testAudioPreview").src = testPreviewUrl;
+
+    $("testPreview").classList.remove("hidden");
+    $("testDecision").classList.add("hidden");
+    $("playTestBtn").disabled = false;
+    $("playTestBtn").textContent = "▶ Play test recording";
+    $("testWaveformPlayhead").style.left = "0%";
+
+    $("testMicBtn").disabled = false;
+    $("testMicState").textContent = "Test recording ready";
+
+    drawTestWaveform(blob);
+  });
+
+  recorder.clear();
+}
+
+$("testMicBtn").addEventListener("click", async () => {
+  if (testRecording) {
+    stopMicrophoneTest();
+  } else {
+    await startMicrophoneTest();
   }
 });
+
+$("retryMicBtn").addEventListener("click", async () => {
+  await startMicrophoneTest();
+});
+
+$("playTestBtn").addEventListener("click", async () => {
+  const audio = $("testAudioPreview");
+  if (!audio.src) return;
+
+  $("testDecision").classList.add("hidden");
+  $("playTestBtn").disabled = true;
+  $("playTestBtn").textContent = "Playing…";
+  $("testWaveformPlayhead").style.left = "0%";
+
+  try {
+    audio.currentTime = 0;
+    await audio.play();
+  } catch (err) {
+    console.error("Test playback failed:", err);
+    $("playTestBtn").disabled = false;
+    $("playTestBtn").textContent = "▶ Play test recording";
+  }
+});
+
+$("testAudioPreview").addEventListener("timeupdate", () => {
+  const audio = $("testAudioPreview");
+
+  const progress =
+    Number.isFinite(audio.duration) && audio.duration > 0
+      ? Math.min(1, audio.currentTime / audio.duration)
+      : 0;
+
+  $("testWaveformPlayhead").style.left = `${progress * 100}%`;
+});
+
+$("testAudioPreview").addEventListener("ended", () => {
+  $("testWaveformPlayhead").style.left = "100%";
+  $("playTestBtn").disabled = false;
+  $("playTestBtn").textContent = "↻ Play again";
+  $("testDecision").classList.remove("hidden");
+});
+
+$("testAgainBtn").addEventListener("click", () => {
+  $("testAudioPreview").pause();
+  $("testPreview").classList.add("hidden");
+  $("testDecision").classList.add("hidden");
+  $("micTestSuccess").classList.add("hidden");
+  $("readyBtn").classList.add("hidden");
+  $("testWaveformPlayhead").style.left = "0%";
+  $("testMicState").textContent = "Tap to test your microphone";
+  testBlob = null;
+
+  if (testPreviewUrl) {
+    URL.revokeObjectURL(testPreviewUrl);
+    testPreviewUrl = null;
+  }
+
+  $("testAudioPreview").removeAttribute("src");
+});
+
+$("testSoundsGoodBtn").addEventListener("click", () => {
+  $("testDecision").classList.add("hidden");
+  $("micTestSuccess").classList.remove("hidden");
+  $("readyBtn").classList.remove("hidden");
+});
+
+$("readyBtn").addEventListener("click", () => {
+  // The microphone has already been tested and remains available.
+  setStep(4);
+  showWord();
+});
+
+async function drawTestWaveform(blob) {
+  try {
+    const arrayBuffer = await blob.arrayBuffer();
+    const tempContext = new (window.AudioContext || window.webkitAudioContext)();
+    const decoded = await tempContext.decodeAudioData(arrayBuffer.slice(0));
+    const data = decoded.getChannelData(0);
+
+    const canvas = $("testWaveformCanvas");
+    const ctx = canvas.getContext("2d");
+    const width = canvas.width;
+    const height = canvas.height;
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.strokeStyle = "#8f1f13";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+
+    const step = Math.max(1, Math.floor(data.length / width));
+
+    for (let x = 0; x < width; x++) {
+      let min = 1;
+      let max = -1;
+
+      for (let j = 0; j < step; j++) {
+        const sample = data[(x * step) + j] || 0;
+        if (sample < min) min = sample;
+        if (sample > max) max = sample;
+      }
+
+      // Visual amplification only; it does not change the recording.
+      const visualGain = 4.4;
+      min = Math.max(-1, min * visualGain);
+      max = Math.min(1, max * visualGain);
+
+      const y1 = ((1 + min) * 0.5) * height;
+      const y2 = ((1 + max) * 0.5) * height;
+
+      ctx.moveTo(x, y1);
+      ctx.lineTo(x, y2);
+    }
+
+    ctx.stroke();
+    tempContext.close();
+
+  } catch (err) {
+    console.warn("Could not draw microphone-test waveform:", err);
+  }
+}
 
 function showWord() {
   const item=words[currentIdx];
@@ -1413,6 +1761,7 @@ function stopAudio() {
   try {
     if(stream)stream.getTracks().forEach(t=>t.stop());
     if(audioContext && audioContext.state!=="closed")audioContext.close();
+    if(testPreviewUrl) URL.revokeObjectURL(testPreviewUrl);
   } catch(e) {}
 }
 
