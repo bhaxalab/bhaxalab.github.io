@@ -1,34 +1,10 @@
-make a small 5 sec clip as if the wav is playing
-
-Yes, a popup works much better here. I changed it so Enter lab keeps the visitor on the welcome page and opens a small playful modal:
-
-🚧
-The lab is still cooking.
-We’re building things behind the scenes.
-Please visit again soon.
-
-They can click Back to the waveform, outside the popup, or press Esc to close it.
-
-Download the updated index.html 
-
-index.html
-HTML
-whole site is not working
-
-I found the problem: the previous file had become corrupted and the popup element was missing while the JavaScript still tried to open it.
-
-I rebuilt the page cleanly and validated that it now has only one HTML document and one popup.
-
-Download the fixed index.html
-
-The mobile waveform fix, India date, visitor counter, staged animation, and funny construction popup are all preserved. 
 
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BhaxaLab — Waveform Welcome</title>
+<title>BhaxaLab — Welcome</title>
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; min-height: 100%; }
@@ -679,12 +655,3 @@ The mobile waveform fix, India date, visitor counter, staged animation, and funn
 
 </body>
 </html>
-index.html
-HTML
-will the graphics cropped in mobile in this version?
-
-No. In this latest version, the waveform will not be cropped on mobile.
-
-On screens under 600 px, it uses width: 100%, no horizontal translation, and no oversized SVG. So the entire waveform—from the first bar on the left to the last bar on the right—fits within the phone screen.
-
-It will simply scale down proportionally while the 3-second reveal animation runs.
