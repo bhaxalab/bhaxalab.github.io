@@ -1,3 +1,28 @@
+make a small 5 sec clip as if the wav is playing
+
+Yes, a popup works much better here. I changed it so Enter lab keeps the visitor on the welcome page and opens a small playful modal:
+
+🚧
+The lab is still cooking.
+We’re building things behind the scenes.
+Please visit again soon.
+
+They can click Back to the waveform, outside the popup, or press Esc to close it.
+
+Download the updated index.html 
+
+index.html
+HTML
+whole site is not working
+
+I found the problem: the previous file had become corrupted and the popup element was missing while the JavaScript still tried to open it.
+
+I rebuilt the page cleanly and validated that it now has only one HTML document and one popup.
+
+Download the fixed index.html
+
+The mobile waveform fix, India date, visitor counter, staged animation, and funny construction popup are all preserved. 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -164,6 +189,77 @@
     opacity: .55;
   }
 
+
+  .construction {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(255,255,255,.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  .construction.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .construction-inner {
+    width: min(390px, 92vw);
+    padding: 32px 26px 26px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.14);
+    border-radius: 18px;
+    box-shadow: 0 18px 55px rgba(0,0,0,.12);
+    transform: translateY(8px) scale(.98);
+    transition: transform .25s ease;
+  }
+
+  .construction.show .construction-inner {
+    transform: translateY(0) scale(1);
+  }
+
+  .construction-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .construction-inner h2 {
+    margin: 0 0 9px;
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: -.025em;
+  }
+
+  .construction-inner p {
+    margin: 0;
+    font-size: .95rem;
+    line-height: 1.55;
+    opacity: .58;
+  }
+
+  .close-popup {
+    margin-top: 20px;
+    border: 0;
+    background: none;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: .82rem;
+    cursor: pointer;
+    opacity: .48;
+  }
+
+  .close-popup:hover {
+    opacity: 1;
+  }
+
   /* On phones the SVG remains vector-sharp and is intentionally wider
      than the viewport, giving the waveform room to breathe. */
   @media (max-width: 600px) {
@@ -183,13 +279,15 @@
     h1 { font-size: clamp(3rem, 16vw, 4.8rem); }
     .subtitle { margin-bottom: 28px; }
     .wave-window {
-      width: calc(100% + 36px);
-      margin-left: -18px;
+      width: 100%;
+      margin-left: 0;
+      overflow: visible;
     }
     .wave {
-      width: 175%;
-      max-width: none;
-      transform: translateX(-21%);
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      transform: none;
     }
     .bar { stroke-width: 4; }
   }
@@ -513,11 +611,37 @@
   <button class="enter" id="enterLab" type="button">Enter lab</button>
 </main>
 
+
+<section class="construction" id="construction" aria-hidden="true">
+  <div class="construction-inner" role="dialog" aria-modal="true" aria-labelledby="constructionTitle">
+    <div class="construction-icon" aria-hidden="true">🚧</div>
+    <h2 id="constructionTitle">The lab is still cooking.</h2>
+    <p>We’re building things behind the scenes.<br>Please visit again soon.</p>
+    <button class="close-popup" id="closePopup" type="button">Back to the waveform</button>
+  </div>
+</section>
+
 <script>
+  const popup = document.getElementById("construction");
+
   document.getElementById("enterLab").addEventListener("click", () => {
-    const screen = document.getElementById("construction");
-    screen.classList.add("show");
-    screen.setAttribute("aria-hidden", "false");
+    popup.classList.add("show");
+    popup.setAttribute("aria-hidden", "false");
+  });
+
+  function closePopup() {
+    popup.classList.remove("show");
+    popup.setAttribute("aria-hidden", "true");
+  }
+
+  document.getElementById("closePopup").addEventListener("click", closePopup);
+
+  popup.addEventListener("click", (event) => {
+    if (event.target === popup) closePopup();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closePopup();
   });
 
   // Always show the current date in India Standard Time (UTC+5:30).
@@ -555,3 +679,12 @@
 
 </body>
 </html>
+index.html
+HTML
+will the graphics cropped in mobile in this version?
+
+No. In this latest version, the waveform will not be cropped on mobile.
+
+On screens under 600 px, it uses width: 100%, no horizontal translation, and no oversized SVG. So the entire waveform—from the first bar on the left to the last bar on the right—fits within the phone screen.
+
+It will simply scale down proportionally while the 3-second reveal animation runs.
