@@ -4,11 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5f2">
-<title>Bhaxa — Launching Soon</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
+<title>Bhaxa — Launching Soon</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
     width: 100%;
     height: 100%;
   }
@@ -16,8 +23,17 @@
   body {
     background: #f5f5f2;
     color: #0b0b0b;
-    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
-                 "Segoe UI", Helvetica, Arial, sans-serif;
+
+    font-family:
+      Inter,
+      ui-sans-serif,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Helvetica,
+      Arial,
+      sans-serif;
+
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
@@ -25,23 +41,36 @@
   main {
     min-height: 100svh;
     width: 100%;
+
     padding: 0 4vw;
+
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
+
     text-align: center;
   }
+
+  /* -------------------------
+     MAIN TITLE
+  ------------------------- */
 
   .title {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .17em;
+
+    gap: 0.17em;
+
     width: 100%;
+
     font-size: clamp(4rem, 10.8vw, 11rem);
-    line-height: .9;
-    letter-spacing: -.075em;
+    line-height: 0.9;
+
+    letter-spacing: -0.075em;
+
     white-space: nowrap;
   }
 
@@ -50,25 +79,39 @@
     flex: 0 0 auto;
   }
 
+  /* -------------------------
+     CHANGING WORD
+  ------------------------- */
+
   .rotator {
     position: relative;
+
     height: 1em;
+
     flex: 1;
+
     overflow: hidden;
+
     color: #777772;
+
     font-weight: 300;
   }
 
   .word {
     position: absolute;
+
     left: 0;
     top: 50%;
+
     line-height: 1;
+
     opacity: 0;
+
     transform: translateY(20%);
+
     transition:
-      opacity .5s ease,
-      transform .65s cubic-bezier(.22,.8,.25,1);
+      opacity 0.5s ease,
+      transform 0.65s cubic-bezier(.22, .8, .25, 1);
   }
 
   .word.active {
@@ -81,15 +124,28 @@
     transform: translateY(-120%);
   }
 
+  /* -------------------------
+     LAUNCHING SOON
+  ------------------------- */
+
   .soon {
     margin-top: 3.3rem;
-    font-size: clamp(.75rem, 1vw, .95rem);
+
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+
     text-transform: uppercase;
-    letter-spacing: .24em;
+
+    letter-spacing: 0.24em;
+
     color: #777772;
   }
 
+  /* -------------------------
+     MOBILE
+  ------------------------- */
+
   @media (max-width: 850px) {
+
     main {
       width: 100%;
       padding: 0 18px;
@@ -97,11 +153,17 @@
 
     .title {
       display: flex;
+
       align-items: center;
+      justify-content: center;
+
       white-space: nowrap;
+
       font-size: clamp(2rem, 8.8vw, 4.2rem);
-      line-height: .91;
-      gap: .17em;
+
+      line-height: 0.91;
+
+      gap: 0.17em;
     }
 
     .bhaxa {
@@ -111,9 +173,13 @@
 
     .rotator {
       display: inline-block;
+
       flex: 1 1 auto;
+
       width: auto;
+
       height: 1.02em;
+
       margin-top: 0;
     }
 
@@ -122,43 +188,146 @@
     }
   }
 
+  /* -------------------------
+     ACCESSIBILITY
+  ------------------------- */
+
   @media (prefers-reduced-motion: reduce) {
-    .word { transition: none; }
+
+    .word {
+      transition: none;
+    }
+
   }
 </style>
 </head>
+
+
 <body>
+
 <main>
-  <div class="title" aria-label="Bhaxa Foundation, Lab, Publications, Research, Corpora">
-    <span class="bhaxa">Bhaxa</span>
-    <span class="rotator" aria-hidden="true">
-      <span class="word">Lab</span>
-      <span class="word">Research</span>
-      <span class="word">Corpora</span>
-     <span class="word">Publications</span>
+
+  <div
+    class="title"
+    aria-label="Bhaxa Lab, Research, Corpora and Publications"
+  >
+
+    <span class="bhaxa">
+      Bhaxa
     </span>
+
+    <span
+      class="rotator"
+      aria-hidden="true"
+    >
+
+      <!-- Lab is visible immediately on page load -->
+
+      <span class="word active">
+        Lab
+      </span>
+
+      <span class="word">
+        Research
+      </span>
+
+      <span class="word">
+        Corpora
+      </span>
+
+      <span class="word">
+        Publications
+      </span>
+
+    </span>
+
   </div>
 
-  <div class="soon">Launching soon</div>
+
+  <div class="soon">
+    Launching soon
+  </div>
+
 </main>
 
+
 <script>
-  const words = [...document.querySelectorAll(".word")];
+
+  const words = [
+    ...document.querySelectorAll(".word")
+  ];
+
   let current = 0;
 
-  setInterval(() => {
+
+  function changeWord() {
+
     const outgoing = words[current];
+
+    /*
+      Move the current word upward
+      and fade it out.
+    */
+
     outgoing.classList.remove("active");
     outgoing.classList.add("exit");
 
+
+    /*
+      Select next word.
+    */
+
     current = (current + 1) % words.length;
+
     const incoming = words[current];
 
+
+    /*
+      Allow outgoing animation
+      to begin before revealing
+      the next word.
+    */
+
     setTimeout(() => {
+
       outgoing.classList.remove("exit");
+
       incoming.classList.add("active");
+
     }, 220);
-  }, 1800);
+
+  }
+
+
+  /*
+    FIRST LOAD
+
+    Bhaxa + Lab are already visible
+    together.
+
+    Keep "Lab" on screen for
+    3 seconds before starting
+    the animation.
+  */
+
+  setTimeout(() => {
+
+    changeWord();
+
+
+    /*
+      After the initial 3-second
+      Lab display, rotate normally.
+    */
+
+    setInterval(
+      changeWord,
+      1800
+    );
+
+  }, 3000);
+
 </script>
+
 </body>
 </html>
