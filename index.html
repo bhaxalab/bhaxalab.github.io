@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5f2">
 
-<title>Bhaxa — Launching Soon</title>
+<title>Bhaxa | Launching Soon</title>
 
 <style>
   * {
@@ -199,6 +199,44 @@
     }
 
   }
+ .trial-notice{
+  overflow:hidden;
+  white-space:nowrap;
+  color:var(--muted);
+  font-size:clamp(1rem,2vw,1.35rem);
+  line-height:1.4;
+  letter-spacing:-.01em;
+  animation:trialMove 14s linear infinite;
+}
+
+.trial-notice a{
+  color:var(--fg);
+  font-weight:500;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.trial-notice a:hover{
+  opacity:.65;
+}
+
+@keyframes trialMove{
+  0%{
+    transform:translateX(100%);
+  }
+  100%{
+    transform:translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .trial-notice{
+    animation:none;
+    text-align:center;
+    white-space:normal;
+  }
+}
+
 </style>
 </head>
 
@@ -247,6 +285,20 @@
   <div class="soon">
     Launching soon
   </div>
+  
+  
+
+  <div class="brand">
+  <div class="trial-notice">
+    An Assamese text corpus by BhaxaCorpora is available <a href="https://www.saurabhkumarnath.com/bhaxacorpora.html" target="_blank" rel="noopener noreferrer">here</a> for trial.
+  </div>
+</div>
+
+
+
+
+</div>
+
 
 </main>
 
