@@ -840,6 +840,10 @@ header p {
   background:#F2C94C !important;
 }
 
+
+.origin-picker {
+  max-height:150px;
+}
 </style>
 </head>
 
@@ -847,9 +851,9 @@ header p {
 <header>
   <h1>Multicultural Delhi Speech (2026–)</h1>
   <p><strong>Researchers:</strong>
-    <a href="https://saurabhkumarnath.com" target="_blank" rel="noopener noreferrer">Saurabh Kumar Nath</a>, ANU
+    <a href="https://kaushikanath.github.io" target="_blank" rel="noopener noreferrer">Kaushika Nath</a>, ANU
     &amp;
-    <a href="https://kaushikanath.github.io" target="_blank" rel="noopener noreferrer">Kaushika Nath</a>, DU
+    <a href="https://saurabhkumarnath.com" target="_blank" rel="noopener noreferrer">Saurabh Kumar Nath</a>, DU
   </p>
   <p><strong>Corpus access:</strong> Available upon request via
     <a href="https://zenodo.org/records/22010379" target="_blank" rel="noopener noreferrer">Zenodo</a>
@@ -885,9 +889,9 @@ header p {
     </div>
 
     <div class="filters compact-filters">
-      <div>
-        <label for="originFilter">Place of origin</label>
-        <select id="originFilter"><option value="All">All origins</option></select>
+      <div class="origin-picker-block">
+        <label>Place of origin <span class="picker-hint">(select any number)</span></label>
+        <div id="originPicker" class="speaker-picker origin-picker"></div>
       </div>
 
       <div>
@@ -965,7 +969,8 @@ const DELHI = {
   lon:77.1519937
 };
 
-const originFilter = document.getElementById("originFilter");
+const originPicker = document.getElementById("originPicker");
+let selectedOrigins = [];
 const genderFilter = document.getElementById("genderFilter");
 const targetFilter = document.getElementById("targetFilter");
 const taskFilter = document.getElementById("taskFilter");
@@ -1078,16 +1083,43 @@ function normaliseRecordingRow(r) {
   };
 }
 
-function populateFiltersFromData() {
-  originFilter.innerHTML = '<option value="All">All origins</option>';
-  [...new Set(speakers.map(s => s.origin).filter(Boolean))]
-    .sort((a,b) => a.localeCompare(b))
-    .forEach(origin => {
-      const option = document.createElement("option");
-      option.value = origin;
-      option.textContent = origin;
-      originFilter.appendChild(option);
+function renderOriginPicker() {
+  const origins = [...new Set(speakers.map(s => s.origin).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
+
+  originPicker.innerHTML = "";
+
+  origins.forEach(origin => {
+    const label = document.createElement("label");
+    label.className = "speaker-choice";
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.value = origin;
+    cb.checked = selectedOrigins.includes(origin);
+
+    const span = document.createElement("span");
+    span.className = "speaker-choice-text";
+    span.textContent = origin;
+
+    cb.addEventListener("change", () => {
+      if(cb.checked) {
+        if(!selectedOrigins.includes(origin)) selectedOrigins.push(origin);
+      } else {
+        selectedOrigins = selectedOrigins.filter(x => x !== origin);
+      }
+      render(false);
+      renderSpeakerPicker();
     });
+
+    label.appendChild(cb);
+    label.appendChild(span);
+    originPicker.appendChild(label);
+  });
+}
+
+function populateFiltersFromData() {
+  renderOriginPicker();
 
   const targets = [...new Set(recordings.map(r => r.targetLanguage).filter(Boolean))]
     .sort((a,b) => a.localeCompare(b));
@@ -1380,7 +1412,7 @@ function recordingMatchesFilters(r) {
 function filteredSpeakers() {
   return speakers.filter(s => {
     const speakerMetaMatch =
-      (originFilter.value === "All" || s.origin === originFilter.value) &&
+      (selectedOrigins.length === 0 || selectedOrigins.includes(s.origin)) &&
       (genderFilter.value === "All" || s.gender === genderFilter.value);
 
     if(!speakerMetaMatch) return false;
@@ -1980,7 +2012,7 @@ function render(fit=false) {
   }
 }
 
-[originFilter,genderFilter,targetFilter,taskFilter,vowelFilter]
+[genderFilter,targetFilter,taskFilter,vowelFilter]
   .forEach(el => el.addEventListener("change", () => {
     if(el === targetFilter || el === taskFilter || el === vowelFilter) {
       selectedVowels = {};
@@ -1991,7 +2023,8 @@ function render(fit=false) {
 
 document.getElementById("resetBtn")
   .addEventListener("click", () => {
-    originFilter.value = "All";
+    selectedOrigins = [];
+    renderOriginPicker();
     genderFilter.value = "All";
     targetFilter.value = "All";
     taskFilter.value = "All";
