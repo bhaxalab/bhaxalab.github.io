@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multicultural Delhi Speech (2026–)</title>
+
+<!-- Real interactive map -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+
+html, body, button, input, select, textarea,
+.leaflet-container, .leaflet-control, .leaflet-popup-content,
+.leaflet-tooltip {
+  font-family:"Poppins", sans-serif !important;
+}
+
+:root {
+  --bg:#f7f5f1;
+  --panel:#fff;
+  --text:#222;
+  --muted:#6d6d6d;
+  --border:#ddd8d0;
+  --accent:#8ecae6;
+  --route:#8ecae6;
+}
+
+* { box-sizing:border-box; }
+
+html, body {
+  margin:0;
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+body {
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+
+header {
+  background:white;
+  padding:14px 3%;
+  border-bottom:1px solid var(--border);
+}
+
+h1 {
+  margin:0 0 7px;
+  font-size:clamp(26px,4vw,40px);
+}
+
+header p {
+  margin:3px 0 0;
+  max-width:900px;
+  color:var(--muted);
+  line-height:1.45;
+}
+
+header a {
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:650;
+}
+
+header a:hover {
+  text-decoration:underline;
+}
+
+main {
+  width:min(1500px,96%);
+  margin:10px auto 0;
+}
+
+.filters {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:12px;
+}
+
+.filters > div {
+  width:100%;
+  min-width:0;
+}
+
+.filters .reset-control {
+  margin-top:4px;
+}
+
+.filter-panel {
+  position:sticky;
+  top:14px;
+}
+
+.filter-panel-head {
+  padding:13px 14px;
+  border-bottom:1px solid var(--border);
+}
+
+.filter-panel-head h2 {
+  margin:0;
+  font-size:17px;
+}
+
+label {
+  display:block;
+  margin-bottom:5px;
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+
+select,button {
+  width:auto;
+  min-height:38px;
+  border:1px solid #ccc7c0;
+  border-radius:8px;
+  background:white;
+  padding:8px 10px;
+  font:inherit;
+}
+
+button { cursor:pointer; }
+
+.filters select,
+.filters button {
+  width:100%;
+  min-width:0;
+}
+
+
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) 260px;
+  gap:15px;
+  align-items:start;
+}
+
+.card {
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  background:white;
+}
+
+.card-head {
+  padding:13px 15px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.card-head h2 {
+  margin:0;
+  font-size:17px;
+}
+
+.small {
+  font-size:12px;
+  color:var(--muted);
+}
+
+#map {
+  width:100%;
+  height:calc(100vh - 185px);
+  background:#e7e4de;
+}
+
+.legend {
+  padding:11px 14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+  color:var(--muted);
+}
+
+.legend i {
+  width:10px;
+  height:10px;
+  display:inline-block;
+  border-radius:50%;
+  margin-right:4px;
+  background:var(--accent);
+}
+
+.legend .black { background:#222; }
+
+.legend .route {
+  width:25px;
+  height:0;
+  border-radius:0;
+  border-top:3px solid var(--route);
+  background:none;
+}
+
+.map-error {
+  display:none;
+  padding:20px;
+  background:#fff3cd;
+  color:#5f4b00;
+  border-bottom:1px solid #ead58a;
+}
+
+.leaflet-tooltip.origin-tooltip {
+  border:0;
+  border-radius:7px;
+  box-shadow:0 2px 10px rgba(0,0,0,.16);
+  font-weight:700;
+}
+
+@media(max-width:1050px) {
+  html, body { height:auto; overflow:auto; }
+  .layout { grid-template-columns:1fr; }
+  .filter-panel { position:static; }
+  .filters {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #map { height:680px; }
+}
+
+@media(max-width:600px) {
+  .filters { grid-template-columns:1fr; }
+  #map { height:560px; }
+}
+  .filters > div { min-width:0; }
+  .filters select, .filters button { width:100%; min-width:0; }
+  #map { height:520px; }
+}
+
+.site-credit {
+  position:absolute;
+  right:3%;
+  bottom:6px;
+  z-index:500;
+  font-size:11px;
+  color:var(--muted);
+  background:rgba(255,255,255,.88);
+  padding:3px 7px;
+  border-radius:6px;
+}
+
+.site-credit a {
+  color:inherit;
+  text-decoration:none;
+}
+
+.site-credit a:hover {
+  text-decoration:underline;
+}
+
+
+/* Light-blue visual theme */
+:root {
+  --accent:#8ecae6;
+  --accent-soft:#eaf7fc;
+  --accent-strong:#5aaed6;
+  --page:#ffffff;
+}
+
+/* White page and panels */
+html,
+body {
+  background:#ffffff !important;
+}
+
+.card,
+.filter-panel,
+header {
+  background:#ffffff !important;
+}
+
+/* Highlighted/interactive text */
+header a,
+.filter-panel h2,
+label,
+.map-title h2 {
+  color:#5aaed6 !important;
+}
+
+/* Keep ordinary body copy dark */
+header p,
+.small,
+.meta {
+  color:#555 !important;
+}
+
+/* Light-blue controls/highlights */
+select:focus,
+button:focus {
+  border-color:#8ecae6 !important;
+  outline-color:#8ecae6 !important;
+}
+
+.filters button {
+  background:#8ecae6 !important;
+  border-color:#8ecae6 !important;
+  color:#163544 !important;
+}
+
+/* Map legend symbols */
+.legend i {
+  background:#8ecae6 !important;
+  border-color:#8ecae6 !important;
+}
+
+.legend i.black {
+  background:#111 !important;
+  border-color:#111 !important;
+}
+
+.legend i.route {
+  background:#8ecae6 !important;
+  border-color:#8ecae6 !important;
+}
+
+/* Footer link */
+.site-credit a {
+  color:#5aaed6 !important;
+}
+
+
+.legend i.route.male-route {
+  background:#E74C3C !important;
+  border-color:#E74C3C !important;
+}
+.legend i.route.female-route {
+  background:#8E5BD9 !important;
+  border-color:#8E5BD9 !important;
+}
+.legend i.route.both-route {
+  background:#F2C94C !important;
+  border-color:#F2C94C !important;
+}
+
+
+.map-filter-layout {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 245px !important;
+  gap:12px !important;
+  align-items:start;
+}
+
+.map-card {
+  min-width:0;
+}
+
+.speaker-picker-block {
+  padding-top:2px;
+}
+
+.picker-hint {
+  font-size:9px;
+  color:#888;
+  font-weight:400;
+}
+
+.speaker-picker {
+  max-height:230px;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  padding:5px;
+}
+
+.speaker-choice {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 5px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:10px;
+  line-height:1.2;
+  color:#333;
+}
+
+.speaker-choice:hover {
+  background:#f7f7f7;
+}
+
+.speaker-choice input {
+  margin:0;
+  width:14px;
+  height:14px;
+  flex:0 0 auto;
+}
+
+.speaker-choice-text {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.compact-filters {
+  gap:7px !important;
+  padding:9px 11px !important;
+}
+
+.compact-filters label {
+  font-size:10px;
+}
+
+.compact-filters select,
+.compact-filters button {
+  min-height:32px;
+  font-size:11px;
+  padding-top:4px;
+  padding-bottom:4px;
+}
+
+.filter-panel-head {
+  padding:9px 11px !important;
+}
+
+.filter-panel-head h2 {
+  font-size:14px !important;
+}
+
+/* Selected-speaker profiles live inside Leaflet popups on the map */
+.speaker-map-popup .leaflet-popup-content-wrapper {
+  border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+}
+
+.speaker-map-popup .leaflet-popup-content {
+  margin:11px 13px;
+  width:205px !important;
+  font-family:"Poppins",sans-serif !important;
+}
+
+.popup-profile {
+  border-left:4px solid #8ecae6;
+  padding-left:9px;
+}
+
+.popup-profile.male { border-left-color:#E74C3C; }
+.popup-profile.female { border-left-color:#8E5BD9; }
+
+.popup-profile-id {
+  font-size:13px;
+  font-weight:700;
+  color:#222;
+  margin-bottom:5px;
+}
+
+.popup-profile-grid {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:3px 8px;
+  font-size:10px;
+  line-height:1.35;
+}
+
+.popup-profile-grid .k { color:#777; }
+.popup-profile-grid .v {
+  color:#222;
+  font-weight:500;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+
+.popup-vowel {
+  margin-top:8px;
+  padding-top:7px;
+  border-top:1px solid #eee;
+}
+
+.popup-vowel label {
+  display:block;
+  margin:0 0 3px;
+  font-size:9px;
+  color:#777 !important;
+  font-weight:600;
+}
+
+.popup-vowel select {
+  width:100%;
+  min-height:30px;
+  font-size:11px;
+}
+
+.popup-audio {
+  margin-top:7px;
+}
+
+.popup-audio audio {
+  width:100%;
+  height:28px;
+}
+
+.popup-audio-missing {
+  margin-top:7px;
+  font-size:9px;
+  line-height:1.3;
+  color:#888;
+}
+
+@media(max-width:1050px) {
+  .map-filter-layout {
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+.map-card {
+  position:relative !important;
+  overflow:hidden;
+}
+
+.profile-overlay-layer,
+.profile-connector-layer {
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:650;
+}
+
+.profile-connector-layer {
+  overflow:visible;
+}
+
+.profile-connector-line {
+  stroke:#555;
+  stroke-width:1.25;
+  stroke-linecap:round;
+  opacity:.72;
+  fill:none;
+}
+
+.profile-anchor-dot {
+  fill:#555;
+  opacity:.85;
+}
+
+.map-speaker-card {
+  position:absolute;
+  width:205px;
+  box-sizing:border-box;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.16);
+  border-radius:10px;
+  box-shadow:0 4px 16px rgba(0,0,0,.17);
+  padding:10px 11px 9px 14px;
+  pointer-events:auto;
+  z-index:2;
+  font-family:"Poppins",sans-serif !important;
+}
+
+.map-speaker-card::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  border-radius:10px 0 0 10px;
+  background:#8ecae6;
+}
+
+.map-speaker-card.male::before { background:#E74C3C; }
+.map-speaker-card.female::before { background:#8E5BD9; }
+
+.map-speaker-close {
+  position:absolute;
+  top:4px;
+  right:5px;
+  width:22px;
+  height:22px;
+  border:0;
+  background:transparent;
+  color:#777;
+  padding:0;
+  cursor:pointer;
+  font-size:17px;
+  line-height:22px;
+}
+
+.map-speaker-close:hover { color:#111; }
+
+.popup-profile-id {
+  font-size:13px;
+  font-weight:700;
+  color:#222;
+  margin:0 22px 5px 0;
+}
+
+.popup-profile-grid {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:3px 8px;
+  font-size:10px;
+  line-height:1.35;
+}
+
+.popup-profile-grid .k { color:#777; }
+.popup-profile-grid .v {
+  color:#222;
+  font-weight:500;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+
+.popup-vowel {
+  margin-top:8px;
+  padding-top:7px;
+  border-top:1px solid #eee;
+}
+
+.popup-vowel label {
+  display:block;
+  margin:0 0 3px;
+  font-size:9px;
+  color:#777 !important;
+  font-weight:600;
+}
+
+.popup-vowel select {
+  width:100%;
+  min-height:30px;
+  font-size:11px;
+}
+
+.popup-audio { margin-top:7px; }
+.popup-audio audio { width:100%; height:28px; }
+.popup-audio iframe {
+  display:block;
+  width:100%;
+  max-width:100%;
+  border:0;
+  border-radius:6px;
+}
+
+.popup-audio-missing {
+  margin-top:7px;
+  font-size:9px;
+  line-height:1.3;
+  color:#888;
+}
+
+@media(max-width:760px) {
+  .map-speaker-card { width:175px; }
+}
+
+
+/* Delhi identity image in the otherwise empty top-right header area */
+header {
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  min-height:150px;
+}
+
+header::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:0;
+  right:0;
+  width:52%;
+  height:100%;
+  background:
+    linear-gradient(
+      to right,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,.88) 16%,
+      rgba(255,255,255,.30) 48%,
+      rgba(255,255,255,.05) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.04) 0%,
+      rgba(255,255,255,.10) 72%,
+      rgba(255,255,255,.92) 100%
+    ),
+    url("https://raw.githubusercontent.com/bhaxalab/bhaxalab.github.io/delhispeech/delhi.jpg") center 48% / cover no-repeat;
+  pointer-events:none;
+}
+
+header h1,
+header p {
+  position:relative;
+  z-index:1;
+  width:max-content;
+  max-width:58%;
+}
+
+@media(max-width:900px) {
+  header::after {
+    width:45%;
+    opacity:.45;
+  }
+  header h1,
+  header p {
+    max-width:72%;
+  }
+}
+
+@media(max-width:650px) {
+  header::after {
+    width:100%;
+    opacity:.14;
+  }
+  header h1,
+  header p {
+    max-width:100%;
+    width:auto;
+  }
+}
+
+
+.data-status {
+  margin-top:4px;
+  font-size:9px;
+  font-weight:500;
+  color:#777;
+}
+.data-status.ok { color:#3d7b52; }
+.data-status.error { color:#a33; }
+
+
+/* Final responsive behaviour:
+   Desktop page can scroll vertically when content needs more room.
+   On phones, selected speaker cards form a horizontal strip inside the map. */
+@media (min-width:1051px) {
+  html, body {
+    min-height:100%;
+    height:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  #map {
+    min-height:560px;
+  }
+}
+
+@media (max-width:760px) {
+  html, body {
+    height:auto !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+  }
+
+  header {
+    min-height:128px;
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  .map-filter-layout {
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .map-card {
+    overflow:hidden !important;
+  }
+
+  #map {
+    height:62vh !important;
+    min-height:430px;
+    max-height:620px;
+  }
+
+  .profile-overlay-layer {
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:0 10px 12px;
+    box-sizing:border-box;
+    pointer-events:auto;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .profile-overlay-layer::before,
+  .profile-overlay-layer::after {
+    content:"";
+    flex:0 0 1px;
+  }
+
+  .map-speaker-card {
+    position:relative !important;
+    left:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    flex:0 0 210px;
+    width:210px !important;
+    max-height:245px;
+    overflow:auto;
+    scroll-snap-align:start;
+    margin:0;
+  }
+
+  .profile-connector-layer {
+    display:none;
+  }
+
+  .speaker-picker {
+    max-height:190px;
+  }
+}
+
+
+.legend i.gender-dot {
+  width:8px !important;
+  height:8px !important;
+  border-radius:50% !important;
+  display:inline-block;
+  border:0 !important;
+}
+.legend i.male-dot {
+  background:#E74C3C !important;
+}
+.legend i.female-dot {
+  background:#8E5BD9 !important;
+}
+.legend i.both-dot {
+  background:#F2C94C !important;
+}
+
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Multicultural Delhi Speech (2026–)</h1>
+  <p><strong>Researchers:</strong>
+    <a href="https://saurabhkumarnath.com" target="_blank" rel="noopener noreferrer">Saurabh Kumar Nath</a>, ANU
+    &amp;
+    <a href="https://kaushikanath.github.io" target="_blank" rel="noopener noreferrer">Kaushika Nath</a>, DU
+  </p>
+  <p><strong>Corpus access:</strong> Available upon request via
+    <a href="https://zenodo.org/records/22010379" target="_blank" rel="noopener noreferrer">Zenodo</a>
+  </p>
+</header>
+
+<main>
+
+<section class="layout map-filter-layout">
+
+  <article class="card map-card">
+    <div id="mapError" class="map-error">
+      The map library could not load. This file needs an internet connection because it uses real map tiles.
+    </div>
+
+    <div id="map"></div>
+    <svg id="profileConnectorLayer" class="profile-connector-layer" aria-hidden="true"></svg>
+    <div id="profileOverlayLayer" class="profile-overlay-layer"></div>
+
+    <div class="legend">
+      <span><i class="gender-dot male-dot"></i>Male only</span>
+      <span><i class="gender-dot female-dot"></i>Female only</span>
+      <span><i class="gender-dot both-dot"></i>Both</span>
+      <span><i class="black"></i>Delhi</span>
+    </div>
+  </article>
+
+  <aside class="card filter-panel">
+    <div class="filter-panel-head">
+      <h2>Filters</h2>
+      <span id="summary" hidden></span>
+        <div id="dataStatus" class="data-status">Loading Google Sheet…</div>
+    </div>
+
+    <div class="filters compact-filters">
+      <div>
+        <label for="originFilter">Place of origin</label>
+        <select id="originFilter"><option value="All">All origins</option></select>
+      </div>
+
+      <div>
+        <label for="genderFilter">Gender</label>
+        <select id="genderFilter">
+          <option value="All">All</option>
+          <option value="F">Female</option>
+          <option value="M">Male</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="targetFilter">Target language</label>
+        <select id="targetFilter">
+          <option value="All">All</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="taskFilter">Task</label>
+        <select id="taskFilter">
+          <option value="All">All tasks</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="vowelFilter">Vowel</label>
+        <select id="vowelFilter">
+          <option value="All">All vowels</option>
+          <option value="TBD">Not entered yet</option>
+        </select>
+      </div>
+
+      <div class="speaker-picker-block">
+        <label>Speakers <span class="picker-hint">(select any number)</span></label>
+        <div id="speakerPicker" class="speaker-picker"></div>
+      </div>
+
+      <div class="reset-control">
+        <button type="button" id="resetBtn">Reset filters</button>
+      </div>
+    </div>
+  </aside>
+
+</section>
+</main>
+<footer class="site-credit">
+  © BhaxaLab · <a href="https://bhaxalab.github.io" target="_blank" rel="noopener noreferrer">bhaxalab.github.io</a>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const SHEET_ID = "1viZa7L1ZNl8-MYPRZSuL2kT8eMDYZreGvEnMHivBGKA";
+const SPEAKERS_SHEET = "speakers";
+const RECORDINGS_SHEET = "recordings";
+
+const GVIZ_BASE =
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`;
+
+const speakersURL =
+  `${GVIZ_BASE}?sheet=${encodeURIComponent(SPEAKERS_SHEET)}`;
+
+const recordingsURL =
+  `${GVIZ_BASE}?sheet=${encodeURIComponent(RECORDINGS_SHEET)}`;
+
+let speakers = [];
+let recordings = [];
+
+const DELHI = {
+  name:"Delhi",
+  lat:28.5837144,
+  lon:77.1519937
+};
+
+const originFilter = document.getElementById("originFilter");
+const genderFilter = document.getElementById("genderFilter");
+const targetFilter = document.getElementById("targetFilter");
+const taskFilter = document.getElementById("taskFilter");
+const vowelFilter = document.getElementById("vowelFilter");
+const speakerPicker = document.getElementById("speakerPicker");
+const profileOverlayLayer = document.getElementById("profileOverlayLayer");
+const profileConnectorLayer = document.getElementById("profileConnectorLayer");
+let selectedSpeakerIds = [];
+let selectedVowels = {};
+
+const summary = document.getElementById("summary");
+const mapError = document.getElementById("mapError");
+const dataStatus = document.getElementById("dataStatus");
+
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+
+  for(let i=0; i<text.length; i++) {
+    const ch = text[i];
+
+    if(quoted) {
+      if(ch === '"') {
+        if(text[i+1] === '"') {
+          cell += '"';
+          i++;
+        } else {
+          quoted = false;
+        }
+      } else {
+        cell += ch;
+      }
+    } else {
+      if(ch === '"') {
+        quoted = true;
+      } else if(ch === ",") {
+        row.push(cell);
+        cell = "";
+      } else if(ch === "\n") {
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+      } else if(ch !== "\r") {
+        cell += ch;
+      }
+    }
+  }
+
+  if(cell.length || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+
+  if(!rows.length) return [];
+
+  const headers = rows[0].map(h =>
+    h.trim().toLowerCase().replace(/\s+/g,"_")
+  );
+
+  return rows.slice(1)
+    .filter(r => r.some(v => String(v).trim() !== ""))
+    .map(r => {
+      const obj = {};
+      headers.forEach((h,i) => obj[h] = (r[i] ?? "").trim());
+      return obj;
+    });
+}
+
+function pick(row, names, fallback="") {
+  for(const name of names) {
+    const key = name.toLowerCase().replace(/\s+/g,"_");
+    if(row[key] !== undefined && String(row[key]).trim() !== "") {
+      return String(row[key]).trim();
+    }
+  }
+  return fallback;
+}
+
+function normaliseGender(value) {
+  const v = String(value || "").trim().toLowerCase();
+  if(["m","male","man"].includes(v)) return "M";
+  if(["f","female","woman"].includes(v)) return "F";
+  return value ? String(value).trim() : "Unknown";
+}
+
+function normaliseSpeakerRow(r) {
+  return {
+    id: String(r.speaker_id || "").trim(),
+    origin: String(r.origin || "").trim(),
+    lat: Number(r.latitude),
+    lon: Number(r.longitude),
+    gender: normaliseGender(r.gender),
+    l1: String(r.l1 || "").trim() || "—",
+    otherLanguages: String(r.other_languages || "").trim()
+  };
+}
+
+function normaliseRecordingRow(r) {
+  return {
+    speakerId: String(r.speaker_id || "").trim(),
+    targetLanguage: String(r.target_language || "").trim(),
+    vowel: String(r.vowel || "").trim(),
+    word: String(r.word || "").trim(),
+    task: String(r.task || "").trim(),
+    audio: String(r.audio || "").trim()
+  };
+}
+
+function populateFiltersFromData() {
+  originFilter.innerHTML = '<option value="All">All origins</option>';
+  [...new Set(speakers.map(s => s.origin).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b))
+    .forEach(origin => {
+      const option = document.createElement("option");
+      option.value = origin;
+      option.textContent = origin;
+      originFilter.appendChild(option);
+    });
+
+  const targets = [...new Set(recordings.map(r => r.targetLanguage).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
+  targetFilter.innerHTML = '<option value="All">All</option>';
+  targets.forEach(target => {
+    const option = document.createElement("option");
+    option.value = target;
+    option.textContent = target === "TBD" ? "Not entered yet" : target;
+    targetFilter.appendChild(option);
+  });
+
+  const tasks = [...new Set(recordings.map(r => r.task).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
+  taskFilter.innerHTML = '<option value="All">All tasks</option>';
+  tasks.forEach(task => {
+    const option = document.createElement("option");
+    option.value = task;
+    option.textContent = task;
+    taskFilter.appendChild(option);
+  });
+
+  const vowels = [...new Set(recordings.map(r => r.vowel).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
+  vowelFilter.innerHTML = '<option value="All">All vowels</option>';
+  vowels.forEach(vowel => {
+    const option = document.createElement("option");
+    option.value = vowel;
+    option.textContent = vowel === "TBD" ? "Not entered yet" : vowel;
+    vowelFilter.appendChild(option);
+  });
+}
+
+
+function gvizTableToRows(table) {
+  if(!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) {
+    return [];
+  }
+
+  const rawLabels = table.cols.map((col, i) => {
+    const label = col && col.label ? String(col.label).trim() : "";
+    return label;
+  });
+
+  const labelsLookUsable = rawLabels.some(Boolean);
+
+  // Build matrix of display/raw values.
+  const matrix = table.rows.map(row =>
+    table.cols.map((_, i) => {
+      const cell = row.c && row.c[i] ? row.c[i] : null;
+      if(!cell) return "";
+      const value = cell.f !== undefined && cell.f !== null ? cell.f : cell.v;
+      return value === null || value === undefined ? "" : String(value).trim();
+    })
+  );
+
+  let headers;
+  let dataRows;
+
+  if(labelsLookUsable) {
+    headers = rawLabels.map((h, i) =>
+      (h || `column_${i+1}`).trim().toLowerCase().replace(/\s+/g, "_")
+    );
+    dataRows = matrix;
+  } else if(matrix.length) {
+    headers = matrix[0].map((h, i) =>
+      (h || `column_${i+1}`).trim().toLowerCase().replace(/\s+/g, "_")
+    );
+    dataRows = matrix.slice(1);
+  } else {
+    return [];
+  }
+
+  return dataRows
+    .filter(row => row.some(v => String(v).trim() !== ""))
+    .map(row => {
+      const obj = {};
+      headers.forEach((h, i) => {
+        obj[h] = row[i] ?? "";
+      });
+      return obj;
+    });
+}
+
+function loadGvizSheet(sheetName) {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "__delhi_gviz_" + sheetName.replace(/[^a-zA-Z0-9_]/g, "_") + "_" + Date.now() + "_" + Math.floor(Math.random()*100000);
+
+    const script = document.createElement("script");
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error(`Timed out loading "${sheetName}" tab.`));
+    }, 15000);
+
+    function cleanup() {
+      clearTimeout(timer);
+      try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+      script.remove();
+    }
+
+    window[callbackName] = function(response) {
+      try {
+        if(response && response.status === "error") {
+          const message =
+            response.errors && response.errors.length
+              ? response.errors.map(e => e.detailed_message || e.message || "").filter(Boolean).join(" ")
+              : `Google Sheets returned an error for "${sheetName}".`;
+          cleanup();
+          reject(new Error(message));
+          return;
+        }
+
+        const rows = gvizTableToRows(response && response.table);
+        cleanup();
+        resolve(rows);
+      } catch(err) {
+        cleanup();
+        reject(err);
+      }
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error(`Could not reach Google Sheets for "${sheetName}".`));
+    };
+
+    script.src =
+      `${GVIZ_BASE}?sheet=${encodeURIComponent(sheetName)}` +
+      `&headers=1` +
+      `&tq=${encodeURIComponent("select *")}` +
+      `&tqx=${encodeURIComponent("responseHandler:" + callbackName)}` +
+      `&_=${Date.now()}`;
+
+    document.head.appendChild(script);
+  });
+}
+
+async function loadGoogleSheetData() {
+  console.info("Loading corpus data from Google Sheets:", SHEET_ID);
+  dataStatus.textContent = "Loading Google Sheet…";
+  dataStatus.className = "data-status";
+
+  try {
+    // JSONP is used rather than fetch(), so the page works both on GitHub Pages
+    // and when this HTML is opened directly from a computer (file://).
+    const [speakerRowsRaw, recordingRowsRaw] = await Promise.all([
+      loadGvizSheet(SPEAKERS_SHEET),
+      loadGvizSheet(RECORDINGS_SHEET)
+    ]);
+
+    speakers = speakerRowsRaw
+      .map(normaliseSpeakerRow)
+      .filter(s => s.id && s.origin && Number.isFinite(s.lat) && Number.isFinite(s.lon));
+
+    recordings = recordingRowsRaw
+      .map(normaliseRecordingRow)
+      .filter(r => r.speakerId);
+
+    const requiredSpeakerHeaders = ["speaker_id","origin","latitude","longitude","gender","l1","other_languages"];
+    const requiredRecordingHeaders = ["speaker_id","target_language","vowel","word","task","audio"];
+
+    const speakerHeaderSet = new Set(Object.keys(speakerRowsRaw[0] || {}));
+    const recordingHeaderSet = new Set(Object.keys(recordingRowsRaw[0] || {}));
+
+    const missingSpeakerHeaders = requiredSpeakerHeaders.filter(h => !speakerHeaderSet.has(h));
+    const missingRecordingHeaders = requiredRecordingHeaders.filter(h => !recordingHeaderSet.has(h));
+
+    if(missingSpeakerHeaders.length) {
+      throw new Error(`speakers tab missing: ${missingSpeakerHeaders.join(", ")}`);
+    }
+    if(missingRecordingHeaders.length) {
+      throw new Error(`recordings tab missing: ${missingRecordingHeaders.join(", ")}`);
+    }
+
+    if(!speakers.length) {
+      throw new Error('No valid speaker rows found in the "speakers" tab.');
+    }
+
+    populateFiltersFromData();
+    selectedSpeakerIds = [];
+    selectedVowels = {};
+
+    render(true);
+    renderSpeakerPicker();
+
+    const targetCount = new Set(recordings.map(r => r.targetLanguage).filter(Boolean)).size;
+    dataStatus.textContent =
+      `${speakers.length} speakers · ${recordings.length} recordings · ${targetCount} target language${targetCount === 1 ? "" : "s"} loaded`;
+    dataStatus.className = "data-status ok";
+  } catch(err) {
+    console.error("Google Sheet loading error:", err);
+    dataStatus.textContent =
+      `Could not load Google Sheet: ${err.message || "unknown error"}`;
+    dataStatus.className = "data-status error";
+
+    if(map) {
+      routeLayer.clearLayers();
+      markerLayer.clearLayers();
+    }
+  }
+}
+
+let map = null;
+let routeLayer = null;
+let markerLayer = null;
+
+if (typeof L === "undefined") {
+  mapError.style.display = "block";
+} else {
+  const INDIA_BOUNDS = L.latLngBounds(
+    [6.5, 68.0],
+    [37.5, 97.5]
+  );
+
+  const INDIA_NAV_BOUNDS = L.latLngBounds(
+    [3.0, 61.0],
+    [40.5, 105.0]
+  );
+
+  map = L.map("map", {
+    zoomControl:true,
+    scrollWheelZoom:true,
+    worldCopyJump:false,
+    maxBounds:INDIA_NAV_BOUNDS,
+    maxBoundsViscosity:1.0
+  });
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom:18,
+      noWrap:true,
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }
+  ).addTo(map);
+
+  function setIndiaHomeView() {
+    map.invalidateSize(false);
+
+    const minZoomForIndia = map.getBoundsZoom(
+      INDIA_BOUNDS,
+      false,
+      L.point(20,20)
+    );
+
+    map.setMinZoom(minZoomForIndia);
+
+    map.fitBounds(INDIA_BOUNDS, {
+      padding:[20,20],
+      animate:false
+    });
+  }
+
+  setIndiaHomeView();
+
+  const IndiaHomeControl = L.Control.extend({
+    options:{position:"topleft"},
+    onAdd:function() {
+      const button = L.DomUtil.create("button","india-home-control");
+      button.type = "button";
+      button.title = "Show full India";
+      button.setAttribute("aria-label","Show full India");
+      button.innerHTML = "⌂";
+      L.DomEvent.disableClickPropagation(button);
+      L.DomEvent.on(button,"click",function() {
+        setIndiaHomeView();
+      });
+      return button;
+    }
+  });
+
+  map.addControl(new IndiaHomeControl());
+
+  routeLayer = L.layerGroup().addTo(map);
+  markerLayer = L.layerGroup().addTo(map);
+}
+
+function recordingsForSpeaker(id) {
+  return recordings.filter(r => r.speakerId === id);
+}
+
+function recordingMatchesFilters(r) {
+  return (
+    (targetFilter.value === "All" || r.targetLanguage === targetFilter.value) &&
+    (taskFilter.value === "All" || r.task === taskFilter.value) &&
+    (vowelFilter.value === "All" || r.vowel === vowelFilter.value)
+  );
+}
+
+function filteredSpeakers() {
+  return speakers.filter(s => {
+    const speakerMetaMatch =
+      (originFilter.value === "All" || s.origin === originFilter.value) &&
+      (genderFilter.value === "All" || s.gender === genderFilter.value);
+
+    if(!speakerMetaMatch) return false;
+
+    // With no recording-level filter selected, show all speakers.
+    if(targetFilter.value === "All" && taskFilter.value === "All" && vowelFilter.value === "All") return true;
+
+    return recordingsForSpeaker(s.id).some(recordingMatchesFilters);
+  });
+}
+
+function grouped(data) {
+  const m = new Map();
+
+  data.forEach(s => {
+    if(!m.has(s.origin)) {
+      m.set(s.origin, {
+        origin:s.origin,
+        lat:s.lat,
+        lon:s.lon,
+        speakers:[]
+      });
+    }
+
+    m.get(s.origin).speakers.push(s);
+  });
+
+  return [...m.values()];
+}
+
+/*
+  Generate a visible curved geographic route from origin to Delhi.
+  This avoids needing another external curve plugin.
+*/
+function curvedLatLngs(startLat,startLon,endLat,endLon,index=0) {
+  const pts = [];
+
+  const dLat = endLat - startLat;
+  const dLon = endLon - startLon;
+
+  const midLat = (startLat + endLat) / 2;
+  const midLon = (startLon + endLon) / 2;
+
+  const length = Math.max(0.0001, Math.hypot(dLat,dLon));
+
+  const perpLat = -dLon / length;
+  const perpLon = dLat / length;
+
+  const distance = length;
+
+  /* larger bend for longer routes; small variation prevents total overlap */
+  const bend =
+    Math.min(3.5, Math.max(.35, distance * .17)) *
+    (1 + (index % 3) * .10);
+
+  const controlLat = midLat + perpLat * bend;
+  const controlLon = midLon + perpLon * bend;
+
+  for(let i=0;i<=50;i++) {
+    const t = i/50;
+    const u = 1-t;
+
+    const lat =
+      u*u*startLat +
+      2*u*t*controlLat +
+      t*t*endLat;
+
+    const lon =
+      u*u*startLon +
+      2*u*t*controlLon +
+      t*t*endLon;
+
+    pts.push([lat,lon]);
+  }
+
+  return pts;
+}
+
+function genderLabel(g) {
+  if(g === "F") return "Female";
+  if(g === "M") return "Male";
+  return "Unknown";
+}
+
+
+function uniqueSpeakersFrom(data) {
+  const seen = new Set();
+  return data.filter(s => {
+    if(seen.has(s.id)) return false;
+    seen.add(s.id);
+    return true;
+  });
+}
+
+function speakerRows(id) {
+  return speakers.filter(s => s.id === id);
+}
+
+function speakerById(id) {
+  return speakers.find(s => s.id === id) || null;
+}
+
+function availableRecordingsForSpeaker(id) {
+  const rows = recordingsForSpeaker(id);
+  let filtered = targetFilter.value === "All"
+    ? rows
+    : rows.filter(r => r.targetLanguage === targetFilter.value);
+
+  if(taskFilter.value !== "All") {
+    filtered = filtered.filter(r => r.task === taskFilter.value);
+  }
+
+  return filtered;
+}
+
+function availableVowelsForSpeaker(id) {
+  const vals = [...new Set(
+    availableRecordingsForSpeaker(id).map(r => r.vowel).filter(Boolean)
+  )];
+  return vals.length ? vals : ["TBD"];
+}
+
+function profileGenderLabel(gender) {
+  if(gender === "M") return "Male";
+  if(gender === "F") return "Female";
+  return "Unknown";
+}
+
+function profileGenderClass(gender) {
+  if(gender === "M") return "male";
+  if(gender === "F") return "female";
+  return "unknown";
+}
+
+function selectedSample(id) {
+  const speaker = speakerById(id);
+  if(!speaker) return null;
+
+  const available = availableRecordingsForSpeaker(id);
+  const vowel = selectedVowels[id] || availableVowelsForSpeaker(id)[0];
+
+  const rec =
+    available.find(r => r.vowel === vowel) ||
+    available[0] ||
+    null;
+
+  return {
+    ...speaker,
+    targetLanguage: rec?.targetLanguage || "TBD",
+    vowel: rec?.vowel || "TBD",
+    word: rec?.word || "",
+    task: rec?.task || "",
+    audio: rec?.audio || ""
+  };
+}
+
+
+function audioHTML(sample) {
+  const url = String(sample.audio || "").trim();
+
+  if(!url) {
+    return `<div class="popup-audio-missing">Not uploaded yet.</div>`;
+  }
+
+  /*
+    SoundCloud secret-share URLs (…/s-XXXXXXXXXXX) are not always accepted
+    directly by the SoundCloud widget. For the test recordings already
+    embedded on the Assamese Dialectology Project site, map the secret token
+    to the exact SoundCloud track API URL used by the working embed.
+  */
+  const secretTrackMap = {
+    "s-rWMjaINrskS": "https://api.soundcloud.com/tracks/1825755864?secret_token=s-rWMjaINrskS",
+    "s-M69ICmJjqWg": "https://api.soundcloud.com/tracks/1825761690?secret_token=s-M69ICmJjqWg",
+    "s-01XBLn6qgkr": "https://api.soundcloud.com/tracks/2010639531?secret_token=s-01XBLn6qgkr",
+    "s-QaYJ7kDrE4g": "https://api.soundcloud.com/tracks/2010623167?secret_token=s-QaYJ7kDrE4g",
+    "s-8cPkzQaCatI": "https://api.soundcloud.com/tracks/2010615687?secret_token=s-8cPkzQaCatI",
+    "s-D06heP4cIi5": "https://api.soundcloud.com/tracks/1998541947?secret_token=s-D06heP4cIi5",
+    "s-nnOjEfk6X6K": "https://api.soundcloud.com/tracks/1998532319?secret_token=s-nnOjEfk6X6K"
+  };
+
+  // If the sheet already contains a complete SoundCloud widget URL, use it as-is.
+  if(/^https?:\/\/w\.soundcloud\.com\/player\//i.test(url)) {
+    return `
+      <div class="popup-audio soundcloud-audio">
+        <iframe
+          width="100%"
+          height="82"
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          src="${url}">
+        </iframe>
+      </div>`;
+  }
+
+  // If the sheet contains an API track URL, feed that into the widget.
+  if(/^https?:\/\/api\.soundcloud\.com\/tracks\//i.test(url)) {
+    const src =
+      "https://w.soundcloud.com/player/?auto_play=false" +
+      "&color=%238ecae6" +
+      "&hide_related=true" +
+      "&show_comments=false" +
+      "&show_reposts=false" +
+      "&show_teaser=false" +
+      "&show_user=false" +
+      "&visual=false" +
+      "&url=" + encodeURIComponent(url);
+
+    return `
+      <div class="popup-audio soundcloud-audio">
+        <iframe
+          width="100%"
+          height="82"
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          src="${src}">
+        </iframe>
+      </div>`;
+  }
+
+  if(/(^https?:\/\/)?(www\.)?soundcloud\.com\//i.test(url)) {
+    let widgetTarget = url;
+
+    // Match a secret token anywhere in the share URL.
+    const match = url.match(/\/(s-[A-Za-z0-9]+)(?:[/?#]|$)/);
+    if(match && secretTrackMap[match[1]]) {
+      widgetTarget = secretTrackMap[match[1]];
+    }
+
+    const src =
+      "https://w.soundcloud.com/player/?auto_play=false" +
+      "&color=%238ecae6" +
+      "&hide_related=true" +
+      "&show_comments=false" +
+      "&show_reposts=false" +
+      "&show_teaser=false" +
+      "&show_user=false" +
+      "&visual=false" +
+      "&url=" + encodeURIComponent(widgetTarget);
+
+    return `
+      <div class="popup-audio soundcloud-audio">
+        <iframe
+          width="100%"
+          height="82"
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          src="${src}">
+        </iframe>
+      </div>`;
+  }
+
+  // Direct audio files use the browser's native audio player.
+  return `
+    <div class="popup-audio">
+      <audio controls preload="none" src="${url}"></audio>
+    </div>`;
+}
+
+function cardHTML(id, cardIndex) {
+  const sample = selectedSample(id);
+  if(!sample) return "";
+
+  const vowels = availableVowelsForSpeaker(id);
+  if(!selectedVowels[id]) selectedVowels[id] = vowels[0];
+
+  const options = vowels.map(v => {
+    const text = v === "TBD" ? "Not entered yet" : `/${v}/`;
+    return `<option value="${v}"${v === selectedVowels[id] ? " selected" : ""}>${text}</option>`;
+  }).join("");
+
+  const audio = audioHTML(sample);
+
+  return `
+    <button class="map-speaker-close" type="button" aria-label="Remove ${sample.id}">×</button>
+    <div class="popup-profile-id">${sample.id}</div>
+    <div class="popup-profile-grid">
+      <span class="k">Origin</span><span class="v">${sample.origin}</span>
+      <span class="k">Gender</span><span class="v">${profileGenderLabel(sample.gender)}</span>
+      <span class="k">L1</span><span class="v">${sample.l1 || "—"}</span>
+      ${sample.otherLanguages ? `<span class="k">Other</span><span class="v">${sample.otherLanguages}</span>` : ""}
+      <span class="k">Target</span><span class="v">${sample.targetLanguage || "—"}</span>
+      ${sample.task ? `<span class="k">Task</span><span class="v">${sample.task}</span>` : ""}
+      ${sample.word ? `<span class="k">Word</span><span class="v">${sample.word}</span>` : ""}
+    </div>
+    <div class="popup-vowel">
+      <label for="map-vowel-${cardIndex}">Vowel</label>
+      <select id="map-vowel-${cardIndex}" data-speaker="${sample.id}">
+        ${options}
+      </select>
+    </div>
+    ${audio}
+  `;
+}
+
+function distributeProfileCards() {
+  if(!map || !profileOverlayLayer || !profileConnectorLayer) return;
+
+  // Mobile cards are a horizontally scrollable strip at the bottom of the map.
+  if(window.matchMedia("(max-width: 760px)").matches) {
+    profileConnectorLayer.innerHTML = "";
+    [...profileOverlayLayer.querySelectorAll(".map-speaker-card")].forEach(card => {
+      card.style.left = "";
+      card.style.top = "";
+    });
+    return;
+  }
+
+  const mapRect = document.getElementById("map").getBoundingClientRect();
+  const overlayRect = profileOverlayLayer.getBoundingClientRect();
+
+  // Keep all cards within the visible map boundary.
+  const pad = 12;
+  const cardGap = 10;
+  const cards = [...profileOverlayLayer.querySelectorAll(".map-speaker-card")];
+  const leftCards = [];
+  const rightCards = [];
+
+  cards.forEach((card, i) => {
+    // Alternate sides so profiles do not pile on one side.
+    (i % 2 === 0 ? leftCards : rightCards).push(card);
+  });
+
+  function placeSide(sideCards, side) {
+    if(!sideCards.length) return;
+
+    const availableH = mapRect.height - pad * 2;
+    const heights = sideCards.map(c => c.offsetHeight || 150);
+    const totalH = heights.reduce((a,b) => a+b, 0) + cardGap * Math.max(0, sideCards.length-1);
+
+    let scaleGap = cardGap;
+    let startY = pad;
+
+    if(totalH < availableH) {
+      startY = pad + (availableH - totalH) / 2;
+    } else if(sideCards.length > 1) {
+      scaleGap = Math.max(2, (availableH - heights.reduce((a,b)=>a+b,0)) / (sideCards.length-1));
+    }
+
+    let y = startY;
+
+    sideCards.forEach((card, idx) => {
+      const w = card.offsetWidth || 205;
+      const h = card.offsetHeight || heights[idx];
+      const x = side === "left"
+        ? pad
+        : Math.max(pad, mapRect.width - w - pad);
+
+      // Clamp vertically to the map.
+      const clampedY = Math.max(pad, Math.min(y, mapRect.height - h - pad));
+      card.style.left = `${x}px`;
+      card.style.top = `${clampedY}px`;
+
+      y += h + scaleGap;
+    });
+  }
+
+  placeSide(leftCards, "left");
+  placeSide(rightCards, "right");
+
+  // Draw straight leader lines from each origin to the nearest edge of its card.
+  profileConnectorLayer.innerHTML = "";
+  profileConnectorLayer.setAttribute("viewBox", `0 0 ${mapRect.width} ${mapRect.height}`);
+
+  cards.forEach(card => {
+    const id = card.dataset.speaker;
+    const sample = selectedSample(id);
+    if(!sample) return;
+
+    const anchor = map.latLngToContainerPoint([sample.lat, sample.lon]);
+    const x = parseFloat(card.style.left) || 0;
+    const y = parseFloat(card.style.top) || 0;
+    const w = card.offsetWidth;
+    const h = card.offsetHeight;
+
+    const cardCenterX = x + w/2;
+    const attachX = cardCenterX < anchor.x ? x + w : x;
+    const attachY = Math.max(y + 16, Math.min(anchor.y, y + h - 16));
+
+    const ns = "http://www.w3.org/2000/svg";
+    const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", anchor.x);
+    line.setAttribute("y1", anchor.y);
+    line.setAttribute("x2", attachX);
+    line.setAttribute("y2", attachY);
+    line.setAttribute("class", "profile-connector-line");
+    profileConnectorLayer.appendChild(line);
+
+    const dot = document.createElementNS(ns, "circle");
+    dot.setAttribute("cx", anchor.x);
+    dot.setAttribute("cy", anchor.y);
+    dot.setAttribute("r", "2.4");
+    dot.setAttribute("class", "profile-anchor-dot");
+    profileConnectorLayer.appendChild(dot);
+  });
+}
+
+function renderSelectedSpeakerPopups() {
+  if(!map || !profileOverlayLayer || !profileConnectorLayer) return;
+
+  profileOverlayLayer.innerHTML = "";
+  profileConnectorLayer.innerHTML = "";
+
+  selectedSpeakerIds.forEach((id, i) => {
+    const sample = selectedSample(id);
+    if(!sample) return;
+
+    const card = document.createElement("div");
+    card.className = `map-speaker-card ${profileGenderClass(sample.gender)}`;
+    card.dataset.speaker = id;
+    card.innerHTML = cardHTML(id, i);
+    profileOverlayLayer.appendChild(card);
+
+    const select = card.querySelector("select[data-speaker]");
+    if(select) {
+      select.addEventListener("change", () => {
+        selectedVowels[id] = select.value;
+        renderSelectedSpeakerPopups();
+      });
+    }
+
+    const close = card.querySelector(".map-speaker-close");
+    if(close) {
+      close.addEventListener("click", () => {
+        selectedSpeakerIds = selectedSpeakerIds.filter(x => x !== id);
+        renderSpeakerPicker();
+      });
+    }
+  });
+
+  requestAnimationFrame(distributeProfileCards);
+}
+
+function renderSpeakerPicker() {
+  const filtered = uniqueSpeakersFrom(filteredSpeakers());
+  const allowedIds = new Set(filtered.map(s => s.id));
+
+  selectedSpeakerIds = selectedSpeakerIds.filter(id => allowedIds.has(id));
+  speakerPicker.innerHTML = "";
+
+  filtered.forEach(s => {
+    const label = document.createElement("label");
+    label.className = "speaker-choice";
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.value = s.id;
+    cb.checked = selectedSpeakerIds.includes(s.id);
+
+    const span = document.createElement("span");
+    span.className = "speaker-choice-text";
+    span.textContent = `${s.id} — ${s.origin}`;
+
+    cb.addEventListener("change", () => {
+      if(cb.checked) {
+        if(!selectedSpeakerIds.includes(s.id)) selectedSpeakerIds.push(s.id);
+      } else {
+        selectedSpeakerIds = selectedSpeakerIds.filter(id => id !== s.id);
+      }
+      renderSelectedSpeakerPopups();
+    });
+
+    label.appendChild(cb);
+    label.appendChild(span);
+    speakerPicker.appendChild(label);
+  });
+
+  if(!filtered.length) {
+    speakerPicker.innerHTML =
+      '<div class="popup-audio-missing" style="padding:6px">No speakers match these filters.</div>';
+  }
+
+  renderSelectedSpeakerPopups();
+}
+
+function renderMap(data) {
+  if(!map) return;
+
+  routeLayer.clearLayers();
+  markerLayer.clearLayers();
+
+  const groups = grouped(data);
+
+  groups
+    .filter(g => g.origin !== "Delhi")
+    .forEach((g,i) => {
+      /*
+        Route colour is based on the speakers currently represented
+        at this origin:
+        male only   = red
+        female only = violet
+        both        = yellow
+      */
+      const genders = new Set(g.speakers.map(s => s.gender));
+      const hasMale = genders.has("M");
+      const hasFemale = genders.has("F");
+
+      let routeColor = "#8ecae6";
+      if(hasMale && hasFemale) routeColor = "#F2C94C";
+      else if(hasMale) routeColor = "#E74C3C";
+      else if(hasFemale) routeColor = "#8E5BD9";
+
+      L.polyline(
+        curvedLatLngs(
+          g.lat,g.lon,
+          DELHI.lat,DELHI.lon,
+          i
+        ),
+        {
+          color:routeColor,
+          weight:3,
+          opacity:.82,
+          lineCap:"round",
+          lineJoin:"round",
+          interactive:false
+        }
+      ).addTo(routeLayer);
+    });
+
+  groups.forEach(g => {
+    const local = g.origin === "Delhi";
+
+    const genders = new Set(g.speakers.map(s => s.gender));
+    const hasMale = genders.has("M");
+    const hasFemale = genders.has("F");
+
+    let originColor = "#8ecae6";
+    if(hasMale && hasFemale) originColor = "#F2C94C";
+    else if(hasMale) originColor = "#E74C3C";
+    else if(hasFemale) originColor = "#8E5BD9";
+
+    const marker = L.circleMarker(
+      [g.lat,g.lon],
+      {
+        radius:local ? 6 : 4,
+        color:local ? "#222222" : originColor,
+        weight:1.5,
+        fillColor:local ? "#222222" : originColor,
+        fillOpacity:1
+      }
+    ).addTo(markerLayer);
+
+    marker.bindTooltip(
+      `<strong>${g.origin}</strong><br>${g.speakers.length} speaker${g.speakers.length === 1 ? "" : "s"}`,
+      {
+        direction:"top",
+        className:"origin-tooltip"
+      }
+    );
+
+    marker.bindPopup(
+      `<strong>${g.origin}</strong><br>` +
+      `${g.speakers.length} speaker${g.speakers.length === 1 ? "" : "s"}<br>` +
+      `${local ? "Local Delhi origin" : "Origin"}`
+    );
+
+    marker.on("click", () => {
+      marker.openPopup();
+    });
+  });
+
+  /* destination marker always visible whenever any data are shown */
+  if(data.length) {
+    L.circleMarker(
+      [DELHI.lat,DELHI.lon],
+      {
+        radius:6,
+        color:"#222222",
+        weight:2,
+        fillColor:"#222222",
+        fillOpacity:1
+      }
+    )
+    .bindTooltip(
+      "<strong>Delhi</strong><br>Recording location",
+      {direction:"top",className:"origin-tooltip"}
+    )
+    .addTo(markerLayer);
+  }
+}
+
+function renderList(data) {}
+
+function render(fit=false) {
+  const data = filteredSpeakers();
+
+  renderMap(data);
+  renderList(data);
+
+  summary.textContent =
+    `${data.length} speakers · ${new Set(data.map(s => s.origin)).size} origins`;
+
+  if(fit && map) {
+    setIndiaHomeView();
+  }
+}
+
+[originFilter,genderFilter,targetFilter,taskFilter,vowelFilter]
+  .forEach(el => el.addEventListener("change", () => {
+    if(el === targetFilter || el === taskFilter || el === vowelFilter) {
+      selectedVowels = {};
+    }
+    render(false);
+    renderSpeakerPicker();
+  }));
+
+document.getElementById("resetBtn")
+  .addEventListener("click", () => {
+    originFilter.value = "All";
+    genderFilter.value = "All";
+    targetFilter.value = "All";
+    taskFilter.value = "All";
+    vowelFilter.value = "All";
+    selectedSpeakerIds = [];
+    selectedVowels = {};
+    render(true);
+    renderSpeakerPicker();
+  });
+
+loadGoogleSheetData();
+
+if(map) {
+  map.on("zoom move resize", () => {
+    if(selectedSpeakerIds.length) requestAnimationFrame(distributeProfileCards);
+  });
+}
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if(!map) return;
+
+    const oldZoom = map.getZoom();
+    const oldCenter = map.getCenter();
+
+    map.invalidateSize(false);
+
+    const minZoomForIndia = map.getBoundsZoom(
+      INDIA_BOUNDS,
+      false,
+      L.point(20,20)
+    );
+
+    map.setMinZoom(minZoomForIndia);
+
+    if(oldZoom < minZoomForIndia) {
+      setIndiaHomeView();
+    } else {
+      map.setView(oldCenter, oldZoom, {animate:false});
+    }
+    if(selectedSpeakerIds.length) requestAnimationFrame(distributeProfileCards);
+  }, 150);
+});
+</script>
+</body>
+</html>
